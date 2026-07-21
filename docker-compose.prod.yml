@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: raksha_postgres_prod
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-raksha_net}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5.17.0
+    container_name: raksha_neo4j_prod
+    environment:
+      NEO4J_AUTH: ${NEO4J_AUTH:-neo4j/rakshanet123}
+      NEO4J_PLUGINS: '["apoc"]'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_prod_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: raksha_backend_prod
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres123}@postgres:5432/${POSTGRES_DB:-raksha_net}
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-rakshanet123}
+      SECRET_KEY: ${SECRET_KEY:-prod_jwt_super_secret_key_raksha_net_2026}
+      ENVIRONMENT: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    volumes:
+      - uploads_prod_data:/app/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: raksha_frontend_prod
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost/api/v1
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: raksha_nginx_prod
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - uploads_prod_data:/app/uploads:ro
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  postgres_prod_data:
+  neo4j_prod_data:
+  uploads_prod_data:
