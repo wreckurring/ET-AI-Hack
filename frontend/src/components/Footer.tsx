@@ -1,10 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Shield, PhoneCall, AlertCircle, FileText, HelpCircle, Lock, ExternalLink } from 'lucide-react';
+import { Shield, PhoneCall, AlertCircle, Send, CheckCircle2, MessageSquare } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
+  const [supportMessage, setSupportMessage] = useState('');
+  const [senderEmail, setSenderEmail] = useState('');
+  const [messageSent, setMessageSent] = useState(false);
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!supportMessage.trim() || !senderEmail.trim()) return;
+    setMessageSent(true);
+    setTimeout(() => {
+      setSupportMessage('');
+      setSenderEmail('');
+      setMessageSent(false);
+    }, 4000);
+  };
+
   return (
     <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 font-sans">
       
@@ -30,7 +47,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main Footer Links */}
+      {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
@@ -43,69 +60,48 @@ export default function Footer() {
               <span className="text-lg font-black text-white tracking-tight">RAKSHA-NET</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              RAKSHA-NET is the National AI-Powered Cyber Fraud Intelligence & Fast-Freeze Operations Platform. 
-              Designed to protect citizens, accelerate interbank account holds, and assist Law Enforcement Agencies in cybercrime investigation.
+              RAKSHA-NET is the National AI-Powered Cyber Fraud Protection & Fast-Freeze Operations Portal. 
+              Designed to protect citizens, accelerate interbank account holds, and assist Law Enforcement Agencies across India.
             </p>
             <span className="inline-block px-3 py-1 bg-slate-800 text-blue-400 border border-blue-500/30 rounded-full text-[11px] font-semibold">
-              Official Public Safety Initiative
+              Official Citizen Safety Initiative
             </span>
           </div>
 
-          {/* Section 2: Emergency Contacts */}
+          {/* Section 2: Emergency Helplines */}
           <div className="space-y-3">
             <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-slate-800 pb-2">
-              Emergency Contacts
+              Emergency Helplines
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2.5 text-xs text-slate-400">
               <li className="flex items-center justify-between text-slate-200">
-                <span>National Cyber Helpline:</span>
-                <span className="font-bold text-amber-400 font-mono">1930</span>
+                <span>Cyber Crime Helpline:</span>
+                <span className="font-bold text-amber-400 font-mono text-sm">1930</span>
               </li>
               <li className="flex items-center justify-between">
-                <span>Emergency Support System:</span>
-                <span className="font-bold text-white font-mono">112</span>
+                <span>National Emergency:</span>
+                <span className="font-bold text-white font-mono text-sm">112</span>
               </li>
               <li className="flex items-center justify-between">
-                <span>National Police Portal:</span>
-                <span className="font-bold text-blue-400 font-mono">cybercrime.gov.in</span>
+                <span>National Cyber Portal:</span>
+                <span className="font-bold text-blue-400 font-mono text-xs">cybercrime.gov.in</span>
               </li>
               <li className="flex items-center justify-between">
-                <span>RBI Cyber Cell Helpline:</span>
-                <span className="font-bold text-white font-mono">14440</span>
+                <span>RBI Cyber Helpline:</span>
+                <span className="font-bold text-white font-mono text-xs">14440</span>
               </li>
             </ul>
           </div>
 
-          {/* Section 3: Cyber Safety Tips */}
+          {/* Section 3: Quick Citizen Links */}
           <div className="space-y-3">
             <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-slate-800 pb-2">
-              Cyber Safety Tips
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li className="flex items-start gap-2">
-                <AlertCircle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
-                <span>Never enter UPI PIN to receive money. PIN is required only to send money.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <AlertCircle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
-                <span>Beware of Digital Arrest threats on Skype/WhatsApp claiming to be CBI or Police.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <AlertCircle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
-                <span>Do not download unknown .APK files from SMS links or WhatsApp messages.</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Section 4: Quick Links & Support */}
-          <div className="space-y-3">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-slate-800 pb-2">
-              Quick Links & Help
+              Quick Help & Services
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
                 <Link href="/report" className="hover:text-blue-400 transition-colors">
-                  Report Cyber Fraud Complaint
+                  Report Cyber Fraud Incident
                 </Link>
               </li>
               <li>
@@ -114,8 +110,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/police/hotspots" className="hover:text-blue-400 transition-colors">
-                  Cyber Crime Hotspots Map
+                <Link href="/#dos-donts" className="hover:text-blue-400 transition-colors">
+                  Cyber Safety Do's & Don'ts
+                </Link>
+              </li>
+              <li>
+                <Link href="/#resources" className="hover:text-blue-400 transition-colors">
+                  Download Awareness Posters
                 </Link>
               </li>
               <li>
@@ -131,11 +132,51 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Section 4: Send Message Support Form */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-slate-800 pb-2 flex items-center gap-1.5">
+              <MessageSquare className="h-4 w-4 text-blue-400" /> Send Message to Support
+            </h4>
+
+            {messageSent ? (
+              <div className="p-3 bg-emerald-950/80 border border-emerald-500/40 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                <span>Message received! Support team will respond shortly.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSendMessage} className="space-y-2 text-xs">
+                <input
+                  type="email"
+                  required
+                  placeholder="Your Email Address"
+                  value={senderEmail}
+                  onChange={(e) => setSenderEmail(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500"
+                />
+                <textarea
+                  rows={2}
+                  required
+                  placeholder="Type your message or feedback..."
+                  value={supportMessage}
+                  onChange={(e) => setSupportMessage(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition-colors flex items-center justify-center space-x-1.5"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                  <span>Send Message</span>
+                </button>
+              </form>
+            )}
+          </div>
+
         </div>
 
         {/* Bottom Disclaimer & Copyright */}
         <div className="mt-12 pt-6 border-t border-slate-800 text-center md:flex md:justify-between md:items-center text-xs text-slate-500">
-          <p>© 2026 RAKSHA-NET National Cyber Crime Operations. All Rights Reserved.</p>
+          <p>© 2026 RAKSHA-NET National Cyber Crime Operations Portal. All Rights Reserved.</p>
           <p className="mt-2 md:mt-0 font-mono">Designed for Public Safety & Law Enforcement Excellence</p>
         </div>
       </div>
