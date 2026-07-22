@@ -1,259 +1,245 @@
 'use client';
 
-import React, { useState } from 'react';
-import { CheckCircle2, XCircle, ShieldCheck, AlertOctagon, CreditCard, ShieldAlert, Key, TrendingUp, FileText, QrCode, Briefcase, Package } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface CategoryGuidance {
+interface HazardCard {
   id: string;
   title: string;
-  icon: React.ElementType;
+  image: string;
   dos: string[];
   donts: string[];
 }
 
-const SAFETY_CATEGORIES: CategoryGuidance[] = [
+const CAROUSEL_CARDS: HazardCard[] = [
   {
     id: 'upi',
     title: 'UPI Fraud',
-    icon: CreditCard,
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80',
     dos: [
-      'Verify the beneficiary name before approving any payment.',
-      'Remember: UPI PIN is required ONLY to send money, NEVER to receive money.',
-      'Check transaction history directly inside your bank or UPI app.',
-      'Report un-authorized auto-debit requests immediately to bank.',
-      'Call 1930 Cyber Helpline immediately if money is fraudulently deducted.'
+      'Verify beneficiary name before entering transaction details.',
+      'Remember: UPI PIN is required ONLY to send money, NEVER to receive.',
+      'Check transaction status directly inside official banking app.'
     ],
     donts: [
       'Never enter your UPI PIN upon receiving SMS or collect requests.',
-      'Never scan QR codes sent by buyers on OLX or social media.',
-      'Never click on unknown payment links received via SMS.',
-      'Never share bank account details or UPI VPA with unknown callers.',
-      'Never trust un-verified customer care numbers found on Google search.'
+      'Never scan QR codes sent by unknown buyers on OLX or social media.'
     ]
   },
   {
     id: 'digital_arrest',
-    title: 'Digital Arrest Scam',
-    icon: ShieldAlert,
+    title: 'Digital Arrest',
+    image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80',
     dos: [
-      'Understand that Indian Police/CBI/Customs NEVER arrest anyone over Skype/WhatsApp video calls.',
-      'Verify suspicious calls by visiting your nearest local police station.',
-      'Record the video call and note down the caller\'s phone number.',
-      'Disconnect suspicious calls demanding digital interrogation immediately.',
-      'Lodge a report on 1930 Cyber Fraud Helpline promptly.'
+      'Understand Indian Police/CBI NEVER arrest anyone over Skype/WhatsApp.',
+      'Verify suspicious calls at your nearest local police station.',
+      'Report coercive video calls to 1930 Helpline immediately.'
     ],
     donts: [
       'Never transfer money to "clearance accounts" or "RBI verification accounts".',
-      'Never isolate yourself or stay on video call under coercion or threats.',
-      'Never share Aadhaar, Passport, or Bank Account numbers over video calls.',
-      'Never believe claims of drugs or illegal contraband found in package.',
-      'Never panic when threatened with legal warrants over WhatsApp.'
-    ]
-  },
-  {
-    id: 'otp',
-    title: 'OTP Fraud',
-    icon: Key,
-    dos: [
-      'Keep One-Time Passwords (OTP) strictly confidential at all times.',
-      'Read the full SMS text before entering any OTP to verify transaction details.',
-      'Set strong biometric or 2FA protection on mobile banking apps.',
-      'Inform your telecom operator if your SIM card suddenly stops working (SIM Swap).',
-      'Report any suspicious OTP requests to your bank customer care.'
-    ],
-    donts: [
-      'Never share OTP with anyone over phone call, SMS, or WhatsApp.',
-      'Never read out OTP to caller claiming to be bank executive or courier agent.',
-      'Never forward SMS messages containing verification codes.',
-      'Never enter OTP on un-encrypted web forms (http://).',
-      'Never grant remote access permissions (AnyDesk/TeamViewer) while receiving OTP.'
-    ]
-  },
-  {
-    id: 'investment',
-    title: 'Investment Scam',
-    icon: TrendingUp,
-    dos: [
-      'Verify SEBI registration status of stock brokers and investment advisors.',
-      'Invest only through recognized stock exchanges (NSE/BSE) and registered apps.',
-      'Conduct independent research before depositing money into trading platforms.',
-      'Report fraudulent Telegram investment groups on 1930 helpline.',
-      'Keep records of all bank transaction receipts and chat screenshots.'
-    ],
-    donts: [
-      'Never trust promises of guaranteed 300%-500% returns in short periods.',
-      'Never deposit money into personal bank accounts for stock trading.',
-      'Never join secret VIP Telegram or WhatsApp stock tip groups.',
-      'Never download un-verified trading APK files outside official App Stores.',
-      'Never pay "withdrawal tax" or "service fees" to release trading profits.'
+      'Never isolate yourself or stay on video call under threats.'
     ]
   },
   {
     id: 'kyc',
     title: 'KYC Scam',
-    icon: FileText,
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80',
     dos: [
-      'Perform KYC updates only at official bank branches or verified mobile apps.',
-      'Cross-check SMS warnings regarding account suspension with official bank helpline.',
-      'Report suspicious SMS links to 1930 Cyber Cell immediately.',
-      'Keep your bank account registered with SMS alerts for instant updates.',
-      'Preserve screenshots of phishing SMS messages for evidence.'
+      'Perform KYC updates only at official bank branches or verified apps.',
+      'Cross-check SMS warnings regarding account block with official helpline.',
+      'Report suspicious SMS links to 1930 Cyber Cell immediately.'
     ],
     donts: [
-      'Never click links in SMS claiming "Your YONO / SBI / Electricity account is blocked".',
-      'Never download unknown .APK files (e.g. sbi-update.apk) sent via WhatsApp.',
-      'Never fill confidential net-banking passwords on unofficial websites.',
-      'Never call helpline numbers provided in suspicious SMS messages.',
-      'Never share PAN or Aadhaar card details with un-verified callers.'
+      'Never click links in SMS claiming "Your YONO / SBI account is blocked".',
+      'Never download unknown .APK files (e.g. sbi-update.apk) sent via WhatsApp.'
+    ]
+  },
+  {
+    id: 'investment',
+    title: 'Investment Scam',
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=600&q=80',
+    dos: [
+      'Verify SEBI registration status of stock brokers and advisors.',
+      'Invest only through recognized stock exchanges (NSE/BSE).',
+      'Conduct independent research before depositing money.'
+    ],
+    donts: [
+      'Never trust promises of guaranteed 300%-500% returns in short periods.',
+      'Never deposit money into personal bank accounts for stock trading.'
     ]
   },
   {
     id: 'qr',
     title: 'QR Code Scam',
-    icon: QrCode,
+    image: 'https://images.unsplash.com/photo-1595079672139-cee25825daf3?auto=format&fit=crop&w=600&q=80',
     dos: [
-      'Remember that scanning QR codes is required ONLY to send/pay money.',
-      'Verify merchant details displayed on the UPI app screen after scanning.',
-      'Refuse QR code payment demands from unknown online buyers.',
-      'Report fake buyer profiles on OLX/Quikr platforms immediately.',
-      'Use secure UPI apps with real-time merchant verification.'
+      'Remember scanning QR codes is required ONLY to pay money.',
+      'Verify merchant name on app screen after scanning.',
+      'Refuse QR code payment demands from unknown online buyers.'
     ],
     donts: [
       'Never scan QR codes to receive advance payments or refunds.',
-      'Never enter UPI PIN after scanning a QR code sent by a buyer.',
-      'Never trust QR codes claiming to credit Army / Defence Canteen funds.',
-      'Never scan QR codes received on WhatsApp from unknown buyers.',
-      'Never approve money debit transactions under the guise of verification.'
+      'Never enter UPI PIN after scanning a QR code sent by a buyer.'
     ]
   },
   {
-    id: 'job',
-    title: 'Job Scam',
-    icon: Briefcase,
+    id: 'otp',
+    title: 'OTP Fraud',
+    image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=600&q=80',
     dos: [
-      'Verify company registration and official domain emails (e.g., hr@company.com).',
-      'Check job listings on official corporate career portals.',
-      'Report fake YouTube like/rating task groups to cyber authorities.',
-      'Keep records of job offer letters and recruiter payment demands.',
-      'Inform cyber crime helpline 1930 if defrauded under job pretext.'
+      'Keep One-Time Passwords (OTP) strictly confidential.',
+      'Read the full SMS text before entering any OTP to verify amount.',
+      'Report suspicious OTP requests to bank customer care.'
     ],
     donts: [
-      'Never pay "registration fees", "security deposits", or "laptop charges" for jobs.',
-      'Never participate in Telegram tasks promising daily income for liking videos.',
-      'Never accept job offers that require transferring money through cryptocurrency.',
-      'Never share confidential bank details before signing official employment contracts.',
-      'Never trust recruiters operating solely via Telegram or WhatsApp numbers.'
-    ]
-  },
-  {
-    id: 'courier',
-    title: 'Courier Scam',
-    icon: Package,
-    dos: [
-      'Track parcel status exclusively on official courier company websites.',
-      'Verify any parcel delivery issue by calling official customer service.',
-      'Report fake FedEx / Customs extortion calls to 1930 helpline.',
-      'Check tracking numbers independently without clicking SMS links.',
-      'Preserve call recordings of extortion demands as evidence.'
-    ],
-    donts: [
-      'Never pay small "address update fees" or "customs duty" via SMS links.',
-      'Never believe calls claiming your parcel contains illegal passports or drugs.',
-      'Never transfer money to clear customs clearance holds over phone calls.',
-      'Never connect to video calls with callers claiming to be Mumbai Customs.',
-      'Never install remote access software to resolve parcel delivery issues.'
+      'Never share OTP with anyone over phone call, SMS, or WhatsApp.',
+      'Never read out OTP to caller claiming to be bank executive.'
     ]
   }
 ];
 
 export default function DosAndDonts() {
-  const { t } = useLanguage();
-  const [selectedCatId, setSelectedCatId] = useState('upi');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
-  const activeCategory = SAFETY_CATEGORIES.find(c => c.id === selectedCatId) || SAFETY_CATEGORIES[0];
+  // Auto sliding every 4 seconds
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      handleNext();
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [currentIndex, isPaused]);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % CAROUSEL_CARDS.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + CAROUSEL_CARDS.length) % CAROUSEL_CARDS.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    if (diff > 50) handleNext();
+    if (diff < -50) handlePrev();
+    touchStartX.current = null;
+  };
+
+  // Get 4 visible cards for desktop viewport
+  const visibleCards = [];
+  for (let i = 0; i < 4; i++) {
+    const cardIndex = (currentIndex + i) % CAROUSEL_CARDS.length;
+    visibleCards.push(CAROUSEL_CARDS[cardIndex]);
+  }
 
   return (
-    <section id="dos-donts" className="py-16 bg-white border-b border-slate-200 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="dos-donts" className="py-12 bg-slate-50 border-b border-slate-200 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
-            <ShieldCheck className="h-4 w-4 text-blue-600" />
-            <span>NDMA Government Safety Guidelines</span>
-          </div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">{t('dos_donts_heading')}</h2>
-          <p className="text-slate-600 text-sm">{t('dos_donts_sub')}</p>
-        </div>
+        {/* Section Heading (NDMA Government Blue Heading Style) */}
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-blue-900 tracking-tight">
+          Do's & Don'ts
+        </h2>
 
-        {/* Category Selector Tabs */}
-        <div className="flex items-center justify-start lg:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {SAFETY_CATEGORIES.map((cat) => {
-            const Icon = cat.icon;
-            const isSelected = cat.id === selectedCatId;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCatId(cat.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border ${
-                  isSelected
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20'
-                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
-                }`}
+        {/* Carousel Container */}
+        <div
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Card Grid (4 equal height cards on desktop matching Screenshot 2) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {visibleCards.map((card, idx) => (
+              <div
+                key={`${card.id}-${idx}`}
+                className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-md"
               >
-                <Icon className={`h-4 w-4 ${isSelected ? 'text-white' : 'text-blue-600'}`} />
-                <span>{cat.title}</span>
-              </button>
-            );
-          })}
-        </div>
+                {/* Top Image + Gradient Title Strip (Screenshot 2 Match) */}
+                <div className="relative h-44 w-full bg-slate-800 shrink-0">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+                  <div className="absolute bottom-3 left-0 right-0 text-center px-3">
+                    <h3 className="text-base font-extrabold text-white tracking-wide shadow-sm">
+                      {card.title}
+                    </h3>
+                  </div>
+                </div>
 
-        {/* Two-Column Guidance Matrix */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* DO'S Column */}
-          <div className="light-card p-6 border-t-4 border-t-emerald-600 bg-emerald-50/20 space-y-4">
-            <div className="flex items-center space-x-3 border-b border-emerald-100 pb-3">
-              <div className="p-2 rounded-xl bg-emerald-100 text-emerald-700">
-                <CheckCircle2 className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-base">{t('col_dos')}</h3>
-                <span className="text-xs text-emerald-700 font-mono font-semibold">Category: {activeCategory.title}</span>
-              </div>
-            </div>
+                {/* White Body Panel (Screenshot 2 Green Check / Red Cross Match) */}
+                <div className="p-4 space-y-3 flex-grow flex flex-col justify-between text-xs">
+                  
+                  {/* DO'S List */}
+                  <div className="space-y-2.5">
+                    {card.dos.map((item, dIdx) => (
+                      <div key={dIdx} className="flex items-start space-x-2 text-slate-800 leading-snug">
+                        <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">
+                          ✓
+                        </span>
+                        <span className="font-normal">{item}</span>
+                      </div>
+                    ))}
+                  </div>
 
-            <ul className="space-y-3">
-              {activeCategory.dos.map((item, idx) => (
-                <li key={idx} className="flex items-start space-x-3 text-xs text-slate-800 leading-relaxed font-medium">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+                  {/* Dotted Separator (Screenshot 2 Match) */}
+                  <div className="border-t border-dashed border-slate-300 my-2" />
+
+                  {/* DON'TS List */}
+                  <div className="space-y-2.5">
+                    {card.donts.map((item, dnIdx) => (
+                      <div key={dnIdx} className="flex items-start space-x-2 text-slate-800 leading-snug">
+                        <span className="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">
+                          ✕
+                        </span>
+                        <span className="font-normal">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Bottom Right: View More + Link (Screenshot 2 Match) */}
+                  <div className="pt-2 text-right">
+                    <a
+                      href="#resources"
+                      className="text-xs font-bold text-slate-900 hover:text-blue-700 transition-colors"
+                    >
+                      View More +
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* DON'TS Column */}
-          <div className="light-card p-6 border-t-4 border-t-red-600 bg-red-50/20 space-y-4">
-            <div className="flex items-center space-x-3 border-b border-red-100 pb-3">
-              <div className="p-2 rounded-xl bg-red-100 text-red-700">
-                <XCircle className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-base">{t('col_donts')}</h3>
-                <span className="text-xs text-red-700 font-mono font-semibold">Category: {activeCategory.title}</span>
-              </div>
-            </div>
-
-            <ul className="space-y-3">
-              {activeCategory.donts.map((item, idx) => (
-                <li key={idx} className="flex items-start space-x-3 text-xs text-slate-800 leading-relaxed font-medium">
-                  <XCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+          {/* Bottom Center Carousel Navigation Circular Arrows (Screenshot 2 Match) */}
+          <div className="flex items-center justify-center space-x-3 pt-6">
+            <button
+              onClick={handlePrev}
+              className="w-10 h-10 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center shadow-sm transition-colors"
+              aria-label="Previous Slide"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="w-10 h-10 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center shadow-sm transition-colors"
+              aria-label="Next Slide"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
 
         </div>
