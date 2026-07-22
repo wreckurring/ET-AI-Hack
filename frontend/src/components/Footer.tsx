@@ -32,7 +32,7 @@ export default function GovernmentFooter() {
           {/* About */}
           <div className="space-y-2">
             <h4 className="text-white font-bold text-sm uppercase tracking-wider border-b border-slate-800 pb-1.5">
-              RAKSHA-NET Directorate
+              Under-Tow Directorate
             </h4>
             <p className="text-slate-400 text-xs leading-relaxed">
               National Cyber Crime Protection & Fast-Freeze Operations Portal. 
@@ -84,7 +84,7 @@ export default function GovernmentFooter() {
 
         {/* Bottom Disclaimer */}
         <div className="mt-8 pt-6 border-t border-slate-800 text-center md:flex md:justify-between md:items-center text-slate-500">
-          <p>© 2026 RAKSHA-NET National Cyber Crime Directorate. Government of India.</p>
+          <p>© 2026 Under-Tow National Cyber Crime Directorate. Government of India.</p>
           <p className="mt-2 md:mt-0 font-mono text-[11px]">Designed for Public Safety & Law Enforcement Excellence</p>
         </div>
       </div>

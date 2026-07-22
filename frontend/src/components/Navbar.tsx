@@ -75,7 +75,7 @@ export default function Navbar() {
 
           <div>
             <span className="text-2xl sm:text-3xl font-black text-blue-900 tracking-tight block leading-none">
-              RAKSHA-NET
+              Under-Tow
             </span>
             <span className="text-xs sm:text-sm text-slate-700 font-bold block leading-snug mt-0.5">
               Ministry of Home Affairs

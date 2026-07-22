@@ -12,7 +12,7 @@ from app.core.database import engine, Base
 from app.api.v1 import auth, reports, analytics, graph, fast_freeze, seed, ai_scam, health, copilot, websockets
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("raksha.main")
+logger = logging.getLogger("under_tow.main")
 
 # Initialize database tables
 try:

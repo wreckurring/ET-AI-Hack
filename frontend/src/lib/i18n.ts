@@ -15,7 +15,7 @@ export const translations: Record<Language, Record<string, string>> = {
     nav_sign_in: "Sign In / Portal Access",
 
     // Hero Section
-    hero_title: "AI Powered National Cyber Fraud Protection Platform",
+    welcomeTitle: "Under-Tow - National Cyber Fraud Protection Platform",
     hero_subtitle: "Report cyber fraud, track complaints, verify suspicious messages, receive AI-powered guidance, and access emergency cyber assistance through one secure platform.",
     btn_report_fraud: "Report Cyber Fraud",
     btn_track_complaint: "Track Complaint",

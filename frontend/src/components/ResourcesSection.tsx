@@ -63,7 +63,7 @@ const PUBLICATIONS: PublicationCover[] = [
     id: '6',
     title: 'Annual Report',
     coverTitle: 'ANNUAL REPORT 2025-2026',
-    coverSubtitle: 'RAKSHA-NET Crime Directorate Telemetry',
+    coverSubtitle: 'Under-Tow Crime Directorate Telemetry',
     headerColor: 'bg-emerald-900 text-white',
     coverBg: 'bg-emerald-50',
     dateStr: 'Annual Edition'

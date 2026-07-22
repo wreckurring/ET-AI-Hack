@@ -2,7 +2,7 @@ from neo4j import GraphDatabase
 import logging
 from app.core.config import settings
 
-logger = logging.getLogger("raksha.neo4j")
+logger = logging.getLogger("under_tow.neo4j")
 
 class Neo4jManager:
     def __init__(self):

@@ -30,7 +30,7 @@ export default function GovernmentSignInPage() {
 
     try {
       const payload = {
-        email: username || 'user@raksha.gov.in',
+        email: username || 'user@undertow.gov.in',
         password: password || 'password123',
         role: role
       };
@@ -76,7 +76,7 @@ export default function GovernmentSignInPage() {
             🇮🇳
           </div>
           <h2 className="text-xl font-bold text-slate-900">Sign In</h2>
-          <p className="text-xs text-slate-500 font-mono">RAKSHA-NET Official Portal Access</p>
+          <p className="text-xs text-slate-500 font-mono">Under-Tow Official Portal Access</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4 text-xs font-sans">

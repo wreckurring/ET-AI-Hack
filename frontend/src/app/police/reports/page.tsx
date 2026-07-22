@@ -33,7 +33,7 @@ export default function ReportsDirectoryPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `RAKSHA_NET_Fraud_Reports_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute("download", `UNDERTOW_REPORT_${new Date().toISOString().slice(0,10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

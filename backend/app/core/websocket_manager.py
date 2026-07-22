@@ -2,7 +2,7 @@ import logging
 from typing import List, Dict, Any
 from fastapi import WebSocket
 
-logger = logging.getLogger("raksha.websockets")
+logger = logging.getLogger("under_tow.ws")
 
 class WebSocketConnectionManager:
     """

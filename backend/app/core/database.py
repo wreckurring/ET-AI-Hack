@@ -16,7 +16,7 @@ try:
 except Exception as e:
     logger.warning(f"Could not connect to PostgreSQL ({e}). Falling back to local SQLite database for development.")
     os.makedirs("data", exist_ok=True)
-    engine = create_engine("sqlite:///./data/raksha_net.db", connect_args={"check_same_thread": False})
+    engine = create_engine("sqlite:///./data/under_tow.db", connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

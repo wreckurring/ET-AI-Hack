@@ -2,9 +2,9 @@ import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "RAKSHA-NET AI Cyber Fraud Intelligence Platform"
+    PROJECT_NAME: str = "Under-Tow AI Cyber Fraud Intelligence Platform"
     API_V1_STR: str = "/api/v1"
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "raksha-net-super-secret-jwt-key-2026-secure-key")
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "under-tow-super-secret-jwt-key-2026-secure-key")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 # 24 hours
     
@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "postgres")
     POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "postgres")
-    POSTGRES_DB: str = os.getenv("POSTGRES_DB", "raksha_net_db")
+    POSTGRES_DB: str = os.getenv("POSTGRES_DB", "under_tow_db")
     POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", "5432")
     
     @property

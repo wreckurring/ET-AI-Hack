@@ -3,9 +3,9 @@ version: '3.8'
 services:
   postgres:
     image: postgis/postgis:15-3.3
-    container_name: raksha_postgres_prod
+    container_name: under_tow_postgres_prod
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-raksha_net}
+      POSTGRES_DB: ${POSTGRES_DB:-under_tow_db}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
     ports:

@@ -20,7 +20,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('raksha_lang') as Language;
+      const stored = localStorage.getItem('undertow_lang') as Language;
       if (stored === 'en' || stored === 'hi') {
         setLanguageState(stored);
       }

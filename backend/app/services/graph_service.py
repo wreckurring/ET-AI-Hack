@@ -3,7 +3,7 @@ from typing import Dict, List, Any, Optional
 from app.core.neo4j_db import neo4j_client
 from app.schemas.schemas import GraphIngestRequest
 
-logger = logging.getLogger("raksha.graph")
+logger = logging.getLogger("under_tow.graph")
 
 class FraudGraphService:
 
