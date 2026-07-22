@@ -62,75 +62,76 @@ export default function PoliceAnalyticsDashboardPage() {
   const kpis = dashboardData.kpis;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 bg-slate-50 min-h-screen">
+      
       {/* Page Title */}
-      <div className="flex items-center justify-between border-b border-cyan-500/20 pb-4">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-4">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-mono text-cyan-400">
+          <div className="flex items-center space-x-2 text-xs font-mono font-bold text-blue-600">
             <BarChart2 className="h-4 w-4" />
             <span>POSTGIS SPATIAL INTELLIGENCE & TELEMETRY ENGINE</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Police Cyber Intelligence Dashboard</h1>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Police Cyber Intelligence Dashboard</h1>
         </div>
       </div>
 
       {/* Live KPI Cards (6 Cards) */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <div className="glass-panel p-4 rounded-2xl border border-cyan-500/30 space-y-1">
-          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Total Incidents</span>
-          <p className="text-xl font-extrabold text-white font-mono">{kpis.total_incidents}</p>
-          <span className="text-[10px] text-cyan-400 font-mono">+12.4% this week</span>
+        <div className="light-card p-4 space-y-1 bg-white">
+          <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">Total Incidents</span>
+          <p className="text-xl font-black text-slate-900 font-mono">{kpis.total_incidents}</p>
+          <span className="text-[10px] text-blue-600 font-mono font-semibold">+12.4% this week</span>
         </div>
 
-        <div className="glass-panel p-4 rounded-2xl border border-red-500/30 space-y-1">
-          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Total Loss Volume</span>
-          <p className="text-xl font-extrabold text-red-400 font-mono">₹{(kpis.total_amount_loss / 10000000).toFixed(2)} Cr</p>
-          <span className="text-[10px] text-red-400 font-mono">Claimed Fraud</span>
+        <div className="light-card p-4 space-y-1 bg-white border-l-4 border-l-red-600">
+          <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">Total Loss Volume</span>
+          <p className="text-xl font-black text-red-600 font-mono">₹{(kpis.total_amount_loss / 10000000).toFixed(2)} Cr</p>
+          <span className="text-[10px] text-red-500 font-mono font-semibold">Claimed Fraud</span>
         </div>
 
-        <div className="glass-panel p-4 rounded-2xl border border-amber-500/30 space-y-1">
-          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Active Hotspots</span>
-          <p className="text-xl font-extrabold text-amber-400 font-mono">{kpis.active_hotspots_count} Hubs</p>
-          <span className="text-[10px] text-amber-400 font-mono">Jamtara & Mewat</span>
+        <div className="light-card p-4 space-y-1 bg-white border-l-4 border-l-amber-600">
+          <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">Active Hotspots</span>
+          <p className="text-xl font-black text-amber-600 font-mono">{kpis.active_hotspots_count} Hubs</p>
+          <span className="text-[10px] text-amber-600 font-mono font-semibold">Jamtara & Mewat</span>
         </div>
 
-        <div className="glass-panel p-4 rounded-2xl border border-emerald-500/30 space-y-1">
-          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Fraud Recovered</span>
-          <p className="text-xl font-extrabold text-emerald-400 font-mono">₹{(kpis.fraud_recovered_amount / 10000000).toFixed(2)} Cr</p>
-          <span className="text-[10px] text-emerald-400 font-mono">Locked via Fast-Freeze</span>
+        <div className="light-card p-4 space-y-1 bg-white border-l-4 border-l-emerald-600">
+          <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">Fraud Recovered</span>
+          <p className="text-xl font-black text-emerald-600 font-mono">₹{(kpis.fraud_recovered_amount / 10000000).toFixed(2)} Cr</p>
+          <span className="text-[10px] text-emerald-600 font-mono font-semibold">Fast-Freeze Locked</span>
         </div>
 
-        <div className="glass-panel p-4 rounded-2xl border border-cyan-500/30 space-y-1">
-          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Golden Hour Success</span>
-          <p className="text-xl font-extrabold text-cyan-300 font-mono">{kpis.golden_hour_freeze_success_pct}%</p>
-          <span className="text-[10px] text-cyan-400 font-mono">Interbank Hold Rate</span>
+        <div className="light-card p-4 space-y-1 bg-white border-l-4 border-l-blue-600">
+          <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">Golden Hour Success</span>
+          <p className="text-xl font-black text-blue-600 font-mono">{kpis.golden_hour_freeze_success_pct}%</p>
+          <span className="text-[10px] text-blue-600 font-mono font-semibold">Interbank Hold Rate</span>
         </div>
 
-        <div className="glass-panel p-4 rounded-2xl border border-purple-500/30 space-y-1">
-          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Avg Response Time</span>
-          <p className="text-xl font-extrabold text-purple-400 font-mono">{kpis.avg_response_time_minutes} Mins</p>
-          <span className="text-[10px] text-purple-300 font-mono">LE Action Window</span>
+        <div className="light-card p-4 space-y-1 bg-white border-l-4 border-l-purple-600">
+          <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">Avg Response Time</span>
+          <p className="text-xl font-black text-purple-600 font-mono">{kpis.avg_response_time_minutes} Mins</p>
+          <span className="text-[10px] text-purple-600 font-mono font-semibold">LE Action Window</span>
         </div>
       </div>
 
       {/* Visual Charts Row 1: Scam Type Distribution + Daily Incident Trend */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Scam Type Distribution Bar Chart */}
-        <div className="glass-panel p-6 rounded-2xl border border-cyan-500/30 space-y-4">
-          <h3 className="font-bold text-white text-sm font-mono uppercase tracking-wider flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-amber-400" /> Scam Category Volume Distribution
+        <div className="light-card p-6 bg-white space-y-4">
+          <h3 className="font-bold text-slate-900 text-sm font-mono uppercase tracking-wider flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-amber-500" /> Scam Category Volume Distribution
           </h3>
 
           <div className="space-y-3">
             {dashboardData.scam_distribution.map((item: any, idx: number) => (
               <div key={idx} className="space-y-1">
                 <div className="flex justify-between text-xs font-mono">
-                  <span className="text-slate-200">{item.category}</span>
-                  <span className="text-cyan-400 font-bold">{item.count} cases (₹{(item.total_loss / 100000).toFixed(1)}L)</span>
+                  <span className="text-slate-800 font-bold">{item.category}</span>
+                  <span className="text-blue-600 font-bold">{item.count} cases (₹{(item.total_loss / 100000).toFixed(1)}L)</span>
                 </div>
-                <div className="w-full h-2 rounded-full bg-cyber-950 overflow-hidden border border-cyan-500/20">
+                <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400"
+                    className="h-full rounded-full bg-blue-600"
                     style={{ width: `${Math.min((item.count / 160) * 100, 100)}%` }}
                   />
                 </div>
@@ -140,22 +141,22 @@ export default function PoliceAnalyticsDashboardPage() {
         </div>
 
         {/* Daily Incident Trend Chart */}
-        <div className="glass-panel p-6 rounded-2xl border border-cyan-500/30 space-y-4">
-          <h3 className="font-bold text-white text-sm font-mono uppercase tracking-wider flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-emerald-400" /> Daily Incident Trend & Volume
+        <div className="light-card p-6 bg-white space-y-4">
+          <h3 className="font-bold text-slate-900 text-sm font-mono uppercase tracking-wider flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-emerald-600" /> Daily Incident Trend & Volume
           </h3>
 
-          <div className="flex items-end justify-between h-48 pt-6 border-b border-cyan-500/20">
+          <div className="flex items-end justify-between h-48 pt-6 border-b border-slate-200">
             {dashboardData.daily_trend.map((day: any, idx: number) => (
               <div key={idx} className="flex flex-col items-center gap-2 group flex-1">
-                <span className="text-[10px] font-mono text-cyan-300 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-[10px] font-mono text-blue-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                   {day.incidents}
                 </span>
                 <div
-                  className="w-8 rounded-t bg-gradient-to-t from-cyan-600 to-teal-400 hover:from-cyan-400 hover:to-emerald-300 transition-all cursor-pointer"
+                  className="w-8 rounded-t bg-blue-600 hover:bg-blue-700 transition-all cursor-pointer"
                   style={{ height: `${(day.incidents / 45) * 100}%` }}
                 />
-                <span className="text-[10px] font-mono text-slate-400">{day.date}</span>
+                <span className="text-[10px] font-mono text-slate-500">{day.date}</span>
               </div>
             ))}
           </div>
@@ -165,14 +166,14 @@ export default function PoliceAnalyticsDashboardPage() {
       {/* Threat Intelligence Tables Row 2: Top Fraud UPIs + Top Scammer SIM Phones */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Top Fraud UPI Handles */}
-        <div className="glass-panel p-6 rounded-2xl border border-cyan-500/30 space-y-4">
-          <h3 className="font-bold text-white text-sm font-mono uppercase tracking-wider flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-amber-400" /> Top Flagged Fraud UPI Handles
+        <div className="light-card p-6 bg-white space-y-4">
+          <h3 className="font-bold text-slate-900 text-sm font-mono uppercase tracking-wider flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-amber-500" /> Top Flagged Fraud UPI Handles
           </h3>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-mono">
-              <thead className="text-cyan-300 border-b border-cyan-500/20 text-[11px]">
+              <thead className="text-slate-600 border-b border-slate-200 text-[11px] uppercase">
                 <tr>
                   <th className="pb-2">Target UPI Handle</th>
                   <th className="pb-2">Reports</th>
@@ -180,14 +181,14 @@ export default function PoliceAnalyticsDashboardPage() {
                   <th className="pb-2 text-right">Risk Score</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-cyan-500/10">
+              <tbody className="divide-y divide-slate-100">
                 {dashboardData.top_fraud_upis.map((item: any, idx: number) => (
-                  <tr key={idx} className="hover:bg-cyber-800/40">
-                    <td className="py-2.5 font-bold text-white">{item.upi_id}</td>
-                    <td className="py-2.5 text-cyan-400">{item.report_count}</td>
-                    <td className="py-2.5 text-emerald-400 font-bold">₹{(item.total_stolen / 100000).toFixed(1)} Lakhs</td>
+                  <tr key={idx} className="hover:bg-slate-50">
+                    <td className="py-2.5 font-bold text-slate-900">{item.upi_id}</td>
+                    <td className="py-2.5 text-blue-600 font-bold">{item.report_count}</td>
+                    <td className="py-2.5 text-emerald-600 font-bold">₹{(item.total_stolen / 100000).toFixed(1)} Lakhs</td>
                     <td className="py-2.5 text-right">
-                      <span className="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-400 border border-red-500/40">
+                      <span className="badge-red font-bold">
                         {item.risk_score}/100
                       </span>
                     </td>
@@ -199,14 +200,14 @@ export default function PoliceAnalyticsDashboardPage() {
         </div>
 
         {/* Top Scammer Phone Numbers */}
-        <div className="glass-panel p-6 rounded-2xl border border-cyan-500/30 space-y-4">
-          <h3 className="font-bold text-white text-sm font-mono uppercase tracking-wider flex items-center gap-2">
-            <Phone className="h-4 w-4 text-purple-400" /> Top Monitored Scammer SIM Phone Numbers
+        <div className="light-card p-6 bg-white space-y-4">
+          <h3 className="font-bold text-slate-900 text-sm font-mono uppercase tracking-wider flex items-center gap-2">
+            <Phone className="h-4 w-4 text-purple-600" /> Top Monitored Scammer SIM Phone Numbers
           </h3>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-mono">
-              <thead className="text-cyan-300 border-b border-cyan-500/20 text-[11px]">
+              <thead className="text-slate-600 border-b border-slate-200 text-[11px] uppercase">
                 <tr>
                   <th className="pb-2">Phone Number</th>
                   <th className="pb-2">Calls Flagged</th>
@@ -214,14 +215,14 @@ export default function PoliceAnalyticsDashboardPage() {
                   <th className="pb-2 text-right">Risk Score</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-cyan-500/10">
+              <tbody className="divide-y divide-slate-100">
                 {dashboardData.top_scammer_phones.map((item: any, idx: number) => (
-                  <tr key={idx} className="hover:bg-cyber-800/40">
-                    <td className="py-2.5 font-bold text-white">{item.phone}</td>
-                    <td className="py-2.5 text-cyan-400">{item.call_count}</td>
-                    <td className="py-2.5 text-slate-300">{item.hub_origin}</td>
+                  <tr key={idx} className="hover:bg-slate-50">
+                    <td className="py-2.5 font-bold text-slate-900">{item.phone}</td>
+                    <td className="py-2.5 text-blue-600 font-bold">{item.call_count}</td>
+                    <td className="py-2.5 text-slate-600">{item.hub_origin}</td>
                     <td className="py-2.5 text-right">
-                      <span className="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-400 border border-red-500/40">
+                      <span className="badge-red font-bold">
                         {item.risk_score}/100
                       </span>
                     </td>
@@ -232,6 +233,7 @@ export default function PoliceAnalyticsDashboardPage() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }

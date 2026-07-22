@@ -55,55 +55,55 @@ export default function AIInvestigationCopilotModal({ isOpen, onClose, reportId,
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="glass-panel-glow w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl border border-cyan-400/40 p-6 shadow-2xl relative bg-cyber-900">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl border border-slate-200 p-6 shadow-2xl relative space-y-4 font-sans">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center space-x-3 border-b border-cyan-500/20 pb-4 mb-4">
-          <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+        <div className="flex items-center space-x-3 border-b border-slate-100 pb-3">
+          <div className="p-2.5 rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
             <Cpu className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <h3 className="text-lg font-extrabold text-slate-900">
               Police AI Investigation Assistant Brief
             </h3>
-            <p className="text-xs text-slate-400 font-mono">
+            <p className="text-xs text-slate-500 font-mono">
               Automated Case Summary & Investigative Guidance for Case #{reportAck}
             </p>
           </div>
         </div>
 
         {loading ? (
-          <div className="py-12 text-center space-y-3">
-            <Loader2 className="h-8 w-8 text-cyan-400 animate-spin mx-auto" />
-            <p className="text-xs font-mono text-cyan-300">Synthesizing Crime Graph & Threat Patterns...</p>
+          <div className="py-12 text-center space-y-3 font-mono">
+            <Loader2 className="h-8 w-8 text-purple-600 animate-spin mx-auto" />
+            <p className="text-xs text-slate-600">Synthesizing Crime Graph & Threat Patterns...</p>
           </div>
         ) : brief && (
-          <div className="space-y-5 text-xs font-mono">
+          <div className="space-y-4 text-xs font-mono">
             {/* Case Summary */}
-            <div className="glass-panel p-4 rounded-xl border border-cyan-500/20 space-y-1.5 bg-cyber-950">
-              <span className="text-[10px] text-cyan-400 uppercase font-bold block">1. CASE BRIEF & NARRATIVE SUMMARY</span>
-              <p className="text-slate-200 leading-relaxed">{brief.case_summary}</p>
+            <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/50 space-y-1">
+              <span className="text-[10px] text-blue-700 uppercase font-bold block">1. CASE BRIEF & NARRATIVE SUMMARY</span>
+              <p className="text-slate-800 leading-relaxed font-sans text-xs">{brief.case_summary}</p>
             </div>
 
             {/* Classification Explanation */}
-            <div className="glass-panel p-4 rounded-xl border border-amber-500/20 space-y-1.5 bg-cyber-950">
-              <span className="text-[10px] text-amber-400 uppercase font-bold block">2. AI THREAT CLASSIFICATION RATIONALE</span>
-              <p className="text-slate-300 leading-relaxed">{brief.classification_explanation}</p>
+            <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-1">
+              <span className="text-[10px] text-amber-800 uppercase font-bold block">2. AI THREAT CLASSIFICATION RATIONALE</span>
+              <p className="text-slate-800 leading-relaxed font-sans text-xs">{brief.classification_explanation}</p>
             </div>
 
             {/* Recommended Investigation Steps */}
-            <div className="glass-panel p-4 rounded-xl border border-emerald-500/20 space-y-2 bg-cyber-950">
-              <span className="text-[10px] text-emerald-400 uppercase font-bold block">3. RECOMMENDED INVESTIGATIVE STEPS</span>
-              <ul className="space-y-1.5">
+            <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+              <span className="text-[10px] text-emerald-800 uppercase font-bold block">3. RECOMMENDED INVESTIGATIVE STEPS</span>
+              <ul className="space-y-1.5 font-sans">
                 {brief.investigation_recommendations.map((step: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-2 text-slate-200">
-                    <ArrowRight className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <li key={idx} className="flex items-start gap-2 text-slate-800 text-xs">
+                    <ArrowRight className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                     <span>{step}</span>
                   </li>
                 ))}
@@ -111,25 +111,25 @@ export default function AIInvestigationCopilotModal({ isOpen, onClose, reportId,
             </div>
 
             {/* Connected Fraud Reports */}
-            <div className="glass-panel p-4 rounded-xl border border-purple-500/20 space-y-2 bg-cyber-950">
-              <span className="text-[10px] text-purple-400 uppercase font-bold block">4. CONNECTED FRAUD SYNDICATE INCIDENTS</span>
-              <div className="space-y-1.5">
+            <div className="p-4 rounded-xl border border-purple-200 bg-purple-50/50 space-y-2">
+              <span className="text-[10px] text-purple-800 uppercase font-bold block">4. CONNECTED FRAUD SYNDICATE INCIDENTS</span>
+              <div className="space-y-1.5 font-sans">
                 {brief.connected_fraud_reports.map((conn: any, idx: number) => (
-                  <div key={idx} className="flex items-center justify-between p-2 rounded bg-cyber-900 border border-purple-500/20">
+                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white border border-purple-100 text-xs">
                     <div>
-                      <span className="font-bold text-white block">{conn.ack_number} ({conn.district})</span>
-                      <span className="text-[10px] text-slate-400">{conn.match_type}</span>
+                      <span className="font-bold text-slate-900 block">{conn.ack_number} ({conn.district})</span>
+                      <span className="text-[10px] text-slate-500 font-mono">{conn.match_type}</span>
                     </div>
-                    <span className="text-purple-300 font-bold">₹{(conn.amount / 100000).toFixed(1)}L</span>
+                    <span className="text-purple-700 font-bold font-mono">₹{(conn.amount / 100000).toFixed(1)}L</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Officer Notes */}
-            <div className="glass-panel p-4 rounded-xl border border-cyan-500/30 space-y-1 bg-cyan-950/20">
-              <span className="text-[10px] text-cyan-300 uppercase font-bold block">5. GENERATED OFFICER CASE NOTE</span>
-              <p className="text-cyan-200 text-xs italic">{brief.generated_officer_notes}</p>
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-100/70 space-y-1">
+              <span className="text-[10px] text-slate-600 uppercase font-bold block font-mono">5. GENERATED OFFICER CASE NOTE</span>
+              <p className="text-slate-800 text-xs italic font-sans">{brief.generated_officer_notes}</p>
             </div>
           </div>
         )}

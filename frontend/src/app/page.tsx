@@ -1,138 +1,281 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Shield, AlertTriangle, Search, Lock, Zap, FileText, CheckCircle2, ArrowRight, Activity, MapPin, Layers } from 'lucide-react';
+import { Shield, AlertTriangle, FileText, CheckCircle2, Lock, ArrowRight, PhoneCall, Cpu, MapPin, Zap, Layers, Sparkles, Building2, HelpCircle } from 'lucide-react';
+import AIScamDetectorModal from '@/components/AIScamDetectorModal';
 
-export default function CitizenHomePage() {
+export default function LandingPage() {
+  const [isScamModalOpen, setIsScamModalOpen] = useState(false);
+
   return (
-    <div className="space-y-16 py-8">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-8 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -z-10 pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl -z-10 pointer-events-none" />
+    <div className="min-h-screen bg-slate-50 font-sans">
+      
+      {/* 1. Large Hero Section */}
+      <section className="relative bg-white border-b border-slate-200 overflow-hidden py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Hero Column */}
+            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
+                <Shield className="h-4 w-4 text-blue-600" />
+                <span>National Public Safety Directive • Cyber Protection</span>
+              </div>
 
-        <div className="text-center space-y-6 max-w-3xl mx-auto">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-500/30 text-xs font-mono text-cyan-300">
-            <Shield className="h-3.5 w-3.5 text-cyan-400" />
-            <span>INDIAN NATIONAL CYBER CRIME INTELLIGENCE GRID</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
+                AI-Powered <span className="text-blue-600">Cyber Fraud</span> Intelligence & Fast-Freeze Hold
+              </h1>
+
+              <p className="text-base sm:text-lg text-slate-600 max-w-2xl font-normal leading-relaxed">
+                Protecting citizens against financial cybercrime, securing SHA-256 evidence chain of custody, 
+                and issuing instant Fast-Freeze account holds across Indian banks in partnership with Law Enforcement Agencies.
+              </p>
+
+              {/* Primary & Secondary CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                <Link href="/report" className="btn-primary w-full sm:w-auto text-base px-8 py-4">
+                  <AlertTriangle className="h-5 w-5 text-amber-300" />
+                  <span>Report Cyber Fraud Now</span>
+                </Link>
+
+                <Link href="/track" className="btn-secondary w-full sm:w-auto text-base px-8 py-4">
+                  <FileText className="h-5 w-5 text-slate-500" />
+                  <span>Track Existing Complaint</span>
+                </Link>
+              </div>
+
+              <div className="pt-4 flex items-center justify-center lg:justify-start space-x-6 text-xs text-slate-500 font-mono">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> SHA-256 Encrypted Evidence
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Section 91 CrPC Compliant
+                </span>
+              </div>
+            </div>
+
+            {/* Right Hero Quick Action Card */}
+            <div className="lg:col-span-5">
+              <div className="light-card p-6 bg-white border-2 border-blue-100 shadow-xl space-y-5 relative">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600">
+                      <Shield className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-sm">Emergency Assistance Desk</h3>
+                      <span className="text-xs text-slate-500 font-mono">Incident Action Protocol</span>
+                    </div>
+                  </div>
+                  <span className="badge-emerald font-mono text-[11px]">24/7 ACTIVE</span>
+                </div>
+
+                {/* Helpline 1930 Callout */}
+                <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-amber-900 block">Immediate Helpline</span>
+                    <span className="text-2xl font-black text-amber-700 font-mono">1930</span>
+                  </div>
+                  <a href="tel:1930" className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-extrabold text-xs rounded-lg transition-colors">
+                    Call Helpline
+                  </a>
+                </div>
+
+                {/* AI Analyzer Quick Trigger */}
+                <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100 space-y-2">
+                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Cpu className="h-4 w-4 text-blue-600 animate-pulse" /> Free Instant AI Scam Analyzer
+                  </span>
+                  <p className="text-xs text-slate-600">Paste suspicious SMS, WhatsApp message, Email, or Call transcript for instant threat classification.</p>
+                  <button
+                    onClick={() => setIsScamModalOpen(true)}
+                    className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    <span>Scan Message / Transcript</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Platform Core Capabilities Section */}
+      <section className="py-16 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="badge-blue">Core Capabilities</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              Enterprise Cyber Fraud Defense Architecture
+            </h2>
+            <p className="text-slate-600 text-sm">
+              Combines cryptographic proof, PostGIS spatial clustering, and automated banking hold directives.
+            </p>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            Report Cyber Fraud. <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">
-              Freeze Fraudulent Funds Instantly.
-            </span>
-          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Card 1 */}
+            <div className="light-card p-6 space-y-4">
+              <div className="p-3 rounded-xl bg-blue-50 text-blue-600 w-fit border border-blue-100">
+                <Lock className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">Cryptographic SHA-256 Proof</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Calculates client-side SHA-256 Web Crypto hash digests for uploaded evidence images & PDFs, 
+                guaranteeing tamper-proof court admissibility and chain of custody.
+              </p>
+            </div>
 
-          <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
-            RAKSHA-NET empowers citizens across India to file tamper-proof cyber crime reports with client-side SHA-256 evidence hashing, tracking mule account networks in real-time.
-          </p>
+            {/* Card 2 */}
+            <div className="light-card p-6 space-y-4">
+              <div className="p-3 rounded-xl bg-emerald-50 text-emerald-600 w-fit border border-emerald-100">
+                <Zap className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">Interbank Fast-Freeze Directives</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Generates automated Section 91 CrPC reference tokens (`FF-2026-XXXX`) to lock target beneficiary bank accounts 
+                and stop stolen funds from being laundered.
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link
-              href="/report"
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center space-x-3 shadow-xl shadow-red-600/25 border border-red-400/30 transition-all transform hover:-translate-y-0.5"
-            >
-              <AlertTriangle className="h-5 w-5" />
-              <span>Report Cyber Fraud Now</span>
+            {/* Card 3 */}
+            <div className="light-card p-6 space-y-4">
+              <div className="p-3 rounded-xl bg-purple-50 text-purple-600 w-fit border border-purple-100">
+                <MapPin className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">PostGIS Spatial Hotspot Clustering</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Uses PostGIS spatial queries and DBSCAN clustering to identify high-density cybercrime hubs (Jamtara, Mewat, Cyberabad) 
+                and display GeoJSON hotspot maps for law enforcement.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 3. AI Multimodal Services Section */}
+      <section className="py-16 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="badge-emerald">Multimodal Intelligence</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              AI Scam Classification & Multimodal Analysis
+            </h2>
+            <p className="text-slate-600 text-sm">
+              Supports SMS, WhatsApp messages, Emails, Speech-to-Text audio recordings, and OCR screenshot reading.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div className="light-card p-6 space-y-3 border-l-4 border-l-blue-600">
+              <span className="text-xs font-mono font-bold text-blue-600 block uppercase">1. TEXT & SMS CLASSIFIER</span>
+              <h4 className="font-bold text-slate-900 text-base">Digital Arrest & Phishing Detection</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Flags fake CBI/Police Skype video call threats, SBI YONO account block SMS messages, and fake electricity bill disconnect notices.
+              </p>
+            </div>
+
+            <div className="light-card p-6 space-y-3 border-l-4 border-l-emerald-600">
+              <span className="text-xs font-mono font-bold text-emerald-600 block uppercase">2. VOICE STT SPEECH ANALYZER</span>
+              <h4 className="font-bold text-slate-900 text-base">Call Recording Threat Detection</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Transcribes call audio (.wav, .mp3, .m4a) to text and detects coercive extortion phrases, fake official impersonations, and OTP solicitations.
+              </p>
+            </div>
+
+            <div className="light-card p-6 space-y-3 border-l-4 border-l-purple-600">
+              <span className="text-xs font-mono font-bold text-purple-600 block uppercase">3. OCR SCREENSHOT READER</span>
+              <h4 className="font-bold text-slate-900 text-base">Image Evidence OCR Parsing</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Extracts text automatically from WhatsApp chat screenshots, fake arrest warrants, and bank UPI receipt images.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 4. How It Works Section */}
+      <section className="py-16 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="badge-amber">Citizen Workflow</span>
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              4-Step Incident Resolution Workflow
+            </h2>
+            <p className="text-slate-600 text-sm">
+              Simple, transparent, and actionable process for citizens to lodge and track cyber fraud complaints.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div className="light-card p-6 text-center space-y-3 relative">
+              <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto shadow-md">
+                1
+              </div>
+              <h4 className="font-bold text-slate-900 text-sm">Submit Fraud Complaint</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Provide transaction UTR number, target UPI ID, scammer phone, and upload screenshot evidence.
+              </p>
+            </div>
+
+            <div className="light-card p-6 text-center space-y-3 relative">
+              <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto shadow-md">
+                2
+              </div>
+              <h4 className="font-bold text-slate-900 text-sm">SHA-256 Evidence Hashing</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Evidence files are cryptographically hashed client-side to generate verifiable cryptographic signatures.
+              </p>
+            </div>
+
+            <div className="light-card p-6 text-center space-y-3 relative">
+              <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto shadow-md">
+                3
+              </div>
+              <h4 className="font-bold text-slate-900 text-sm">AI Risk Classification</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                AI engines classify scam taxonomy, score threat risk (0-100), and link suspect entities in Neo4j graph.
+              </p>
+            </div>
+
+            <div className="light-card p-6 text-center space-y-3 relative">
+              <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto shadow-md">
+                4
+              </div>
+              <h4 className="font-bold text-slate-900 text-sm">Interbank Fast Freeze</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Police & banks execute Fast-Freeze account holds, locking stolen money in beneficiary accounts.
+              </p>
+            </div>
+
+          </div>
+
+          <div className="text-center pt-4">
+            <Link href="/report" className="btn-primary text-base px-8 py-4 inline-flex">
+              <span>Lodge a Cyber Fraud Incident Report Now</span>
+              <ArrowRight className="h-5 w-5" />
             </Link>
-
-            <Link
-              href="/track"
-              className="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel hover:bg-cyber-800/80 text-cyan-300 font-semibold text-sm flex items-center justify-center space-x-2 border border-cyan-500/30 transition-all"
-            >
-              <Search className="h-5 w-5 text-cyan-400" />
-              <span>Track Complaint Status</span>
-            </Link>
           </div>
+
         </div>
       </section>
 
-      {/* Live Telemetry Highlights Bar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-6 rounded-2xl border border-cyan-500/30 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="space-y-1">
-            <p className="text-xs font-mono text-slate-400 uppercase tracking-wider">Total Fraud Reported</p>
-            <p className="text-2xl sm:text-3xl font-extrabold text-white font-mono">₹3.85 Cr+</p>
-          </div>
-          <div className="space-y-1">
-            <p className="text-xs font-mono text-slate-400 uppercase tracking-wider">Fast-Freezes Executed</p>
-            <p className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">68 Accounts</p>
-          </div>
-          <div className="space-y-1">
-            <p className="text-xs font-mono text-slate-400 uppercase tracking-wider">Active Fraud Hotspots</p>
-            <p className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-mono">14 Districts</p>
-          </div>
-          <div className="space-y-1">
-            <p className="text-xs font-mono text-slate-400 uppercase tracking-wider">Evidence Integrity</p>
-            <p className="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono">100% SHA-256</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Platform Core Capabilities */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white">How RAKSHA-NET Cyber Defense Works</h2>
-          <p className="text-slate-400 text-sm">Automated end-to-end intelligence for victim protection & rapid law enforcement action.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="glass-panel p-6 rounded-xl border border-cyan-500/20 hover:border-cyan-400/50 transition-colors space-y-3">
-            <div className="p-3 w-fit rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-              <Lock className="h-6 w-6" />
-            </div>
-            <h3 className="font-bold text-lg text-white">1. Cryptographic Evidence Protection</h3>
-            <p className="text-slate-300 text-xs leading-relaxed">
-              Uploaded bank receipts, chats, and screenshots are hashed using browser Web Crypto SHA-256 before leaving your device, maintaining legal chain of custody.
-            </p>
-          </div>
-
-          <div className="glass-panel p-6 rounded-xl border border-cyan-500/20 hover:border-cyan-400/50 transition-colors space-y-3">
-            <div className="p-3 w-fit rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400">
-              <Layers className="h-6 w-6" />
-            </div>
-            <h3 className="font-bold text-lg text-white">2. Neo4j Mule Ring Graph Tracing</h3>
-            <p className="text-slate-300 text-xs leading-relaxed">
-              AI automatically maps transaction UTRs, target UPI handles, and scammer phone numbers into Neo4j graph nodes to pinpoint organized mule syndicates.
-            </p>
-          </div>
-
-          <div className="glass-panel p-6 rounded-xl border border-cyan-500/20 hover:border-cyan-400/50 transition-colors space-y-3">
-            <div className="p-3 w-fit rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
-              <Zap className="h-6 w-6" />
-            </div>
-            <h3 className="font-bold text-lg text-white">3. NPCI Fast-Freeze Execution</h3>
-            <p className="text-slate-300 text-xs leading-relaxed">
-              Police officers receive instant automated directives to trigger NPCI & Interbank Fast-Freeze holds on beneficiary accounts within minutes of reporting.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Emergency Call-Out */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel-glow p-8 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-red-950/60 via-cyber-900 to-cyber-900 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2">
-            <span className="px-3 py-1 rounded font-mono text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold uppercase">
-              Golden Hour Response Window
-            </span>
-            <h3 className="text-2xl font-bold text-white">Victim of a Cyber Scam right now?</h3>
-            <p className="text-slate-300 text-xs max-w-xl">
-              File your complaint on RAKSHA-NET immediately or dial National Cyber Helpline <strong>1930</strong>. Reporting within 1 hour significantly increases fund recovery probability.
-            </p>
-          </div>
-
-          <Link
-            href="/report"
-            className="shrink-0 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center space-x-2 transition-colors"
-          >
-            <span>File Emergency Complaint</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
+      {/* AI Scam Detector Modal */}
+      <AIScamDetectorModal
+        isOpen={isScamModalOpen}
+        onClose={() => setIsScamModalOpen(false)}
+      />
     </div>
   );
 }

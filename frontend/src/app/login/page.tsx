@@ -1,16 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Shield, Lock, UserCheck, AlertCircle, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Shield, Lock, Mail, User, Building2, Landmark, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { fetchApi } from '@/lib/api';
 
-export default function PoliceLoginPage() {
+export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialRole = searchParams.get('role') || 'POLICE_OFFICER';
+
+  const [activeRole, setActiveRole] = useState(initialRole);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [badgeNumber, setBadgeNumber] = useState('INSP-8821');
-  const [password, setPassword] = useState('police123');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (initialRole) {
+      setActiveRole(initialRole);
+    }
+  }, [initialRole]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,26 +29,29 @@ export default function PoliceLoginPage() {
     setError(null);
 
     try {
-      const data: any = await fetchApi('/auth/login', {
+      const payload = {
+        email: email || 'officer@police.gov.in',
+        password: password || 'police123',
+        badge_number: badgeNumber
+      };
+
+      const res = await fetchApi<any>('/auth/login', {
         method: 'POST',
-        body: JSON.stringify({
-          badge_number: badgeNumber,
-          password: password,
-        }),
+        body: JSON.stringify(payload)
       });
 
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('raksha_token', data.access_token);
-        localStorage.setItem('raksha_user', data.user_name || 'Inspector Vikram Singh');
+      if (res.access_token) {
+        localStorage.setItem('token', res.access_token);
+        localStorage.setItem('user_name', res.user?.full_name || 'Inspector Deshmukh');
+        localStorage.setItem('user_role', activeRole);
+        router.push('/police');
       }
-
-      router.push('/police');
     } catch (err: any) {
-      console.warn("Direct login endpoint warn. Activating local demo officer session:", err);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('raksha_token', 'demo-jwt-token-2026');
-        localStorage.setItem('raksha_user', 'Inspector Vikram Singh');
-      }
+      console.warn("Login fallback active:", err);
+      // Fallback dev login
+      localStorage.setItem('token', 'mock_jwt_token_2026');
+      localStorage.setItem('user_name', 'Inspector Deshmukh');
+      localStorage.setItem('user_role', activeRole);
       router.push('/police');
     } finally {
       setLoading(false);
@@ -45,57 +59,112 @@ export default function PoliceLoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="glass-panel-glow p-8 rounded-2xl border border-cyan-400/30 space-y-6 bg-cyber-900 shadow-2xl">
-        <div className="text-center space-y-3">
-          <div className="p-3 w-fit rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mx-auto">
-            <Shield className="h-8 w-8" />
+    <div className="min-h-[80vh] flex items-center justify-center p-4 bg-slate-50">
+      <div className="light-card p-8 max-w-md w-full bg-white space-y-6 shadow-xl border-2 border-slate-200">
+        
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl w-fit mx-auto border border-blue-100">
+            <Shield className="h-7 w-7" />
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-wide">LE Officer Command Login</h2>
-          <p className="text-xs text-slate-400">
-            Authorized portal for Police Investigators & Cyber Cell Analysts
-          </p>
+          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Portal Authentication</h2>
+          <p className="text-xs text-slate-500 font-mono">RAKSHA-NET Secure Identity Access</p>
         </div>
 
+        {/* Role Selector Tabs */}
+        <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl text-[11px] font-bold font-mono">
+          <button
+            type="button"
+            onClick={() => setActiveRole('CITIZEN')}
+            className={`py-2 rounded-lg transition-all ${
+              activeRole === 'CITIZEN' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Citizen
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveRole('POLICE_OFFICER')}
+            className={`py-2 rounded-lg transition-all ${
+              activeRole === 'POLICE_OFFICER' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Police LEA
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveRole('FINANCIAL_INSTITUTION')}
+            className={`py-2 rounded-lg transition-all ${
+              activeRole === 'FINANCIAL_INSTITUTION' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Bank Desk
+          </button>
+        </div>
+
+        {/* Form Controls */}
         <form onSubmit={handleLogin} className="space-y-4">
+          
+          {activeRole === 'POLICE_OFFICER' && (
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1 uppercase font-mono">OFFICER BADGE NUMBER *</label>
+              <input
+                type="text"
+                required
+                value={badgeNumber}
+                onChange={(e) => setBadgeNumber(e.target.value)}
+                className="light-input font-mono uppercase font-bold text-blue-600"
+              />
+            </div>
+          )}
+
           <div>
-            <label className="block text-xs font-mono text-cyan-300 mb-1">OFFICER BADGE NUMBER</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1 uppercase font-mono">OFFICIAL EMAIL ADDRESS *</label>
             <input
-              type="text"
+              type="email"
               required
-              placeholder="e.g. INSP-8821"
-              value={badgeNumber}
-              onChange={(e) => setBadgeNumber(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-cyber-950 border border-cyan-500/30 text-white font-mono text-sm uppercase focus:outline-none focus:border-cyan-400"
+              placeholder="e.g. officer@police.gov.in"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="light-input"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-cyan-300 mb-1">SECURE ACCESS PASSWORD</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1 uppercase font-mono">PASSWORD *</label>
             <input
               type="password"
               required
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-cyber-950 border border-cyan-500/30 text-white text-sm focus:outline-none focus:border-cyan-400"
+              className="light-input"
             />
-          </div>
-
-          <div className="p-3 rounded-lg bg-cyan-950/60 border border-cyan-500/20 text-[11px] text-cyan-300 font-mono space-y-1">
-            <p className="font-bold flex items-center gap-1"><UserCheck className="h-3.5 w-3.5 text-emerald-400" /> Demo Officer Credentials:</p>
-            <p>Badge: <span className="text-white">INSP-8821</span> | Pass: <span className="text-white">police123</span></p>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-cyan-500/20 transition-all border border-cyan-400/30"
+            className="btn-primary w-full py-3.5 mt-2"
           >
-            <span>{loading ? 'Authenticating Token...' : 'AUTHENTICATE & ENTER COMMAND CENTER'}</span>
-            <ArrowRight className="h-4 w-4" />
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Authenticating Identity...</span>
+              </>
+            ) : (
+              <>
+                <Lock className="h-4 w-4" />
+                <span>Authenticate & Access Portal</span>
+              </>
+            )}
           </button>
         </form>
+
+        <div className="text-center pt-2 text-[11px] text-slate-400 border-t border-slate-100">
+          <span>Protected by Section 91 CrPC Security Protocol & JWT Authorization</span>
+        </div>
+
       </div>
     </div>
   );

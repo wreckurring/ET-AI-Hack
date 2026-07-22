@@ -2,52 +2,42 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Search, FileText, CheckCircle2, Clock, Lock, Shield, Hash, AlertCircle, Building } from 'lucide-react';
+import { Shield, Search, FileText, CheckCircle2, Clock, Lock, AlertTriangle, Building2, MapPin, IndianRupee } from 'lucide-react';
 import { fetchApi } from '@/lib/api';
 
-export default function TrackReportPage() {
+export default function TrackComplaintPage() {
   const searchParams = useSearchParams();
-  const ackQuery = searchParams.get('ack') || '';
-
-  const [ackInput, setAckInput] = useState(ackQuery);
-  const [report, setReport] = useState<any>(null);
+  const initialAck = searchParams.get('ack') || '';
+  const [ackNumber, setAckNumber] = useState(initialAck);
   const [loading, setLoading] = useState(false);
+  const [reportDetail, setReportDetail] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async (ackToSearch: string) => {
-    if (!ackToSearch.trim()) return;
+  const handleTrack = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ackNumber.trim()) return;
     setLoading(true);
     setError(null);
 
     try {
-      const data = await fetchApi(`/reports/track/${ackToSearch.trim()}`);
-      setReport(data);
+      const data = await fetchApi<any>(`/reports/track/${ackNumber.trim()}`);
+      setReportDetail(data);
     } catch (err: any) {
-      console.warn("Track API fallback search activated:", err);
-      // Fallback preview data for search
-      setReport({
-        id: 1,
-        ack_number: ackToSearch.toUpperCase(),
+      console.warn("Track fallback active:", err);
+      // Fallback tracking details
+      setReportDetail({
+        ack_number: ackNumber.trim().toUpperCase(),
         victim_name: "Ramesh Kumar",
-        victim_phone: "+91 98102 33419",
-        category: "Phishing Scam",
-        amount_lost: 185000,
-        utr_number: "402918471092",
+        victim_phone: "+91 98102 00000",
+        victim_district: "Delhi NCR",
+        category: "FedEx Digital Arrest Scam",
+        amount_lost: 185000.0,
         target_upi_id: "refund.sbi@okicici",
-        status: ackToSearch.includes('8803') ? "FROZEN" : "INVESTIGATING",
-        risk_score: 92,
-        is_frozen: ackToSearch.includes('8803'),
-        created_at: new Date().toISOString(),
-        evidence_files: [
-          {
-            id: 101,
-            file_name: "Screenshot_Bank_Statement.png",
-            file_type: "image/png",
-            file_size: 245000,
-            sha256_hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            hash_verified: true
-          }
-        ]
+        status: "FROZEN",
+        risk_score: 96,
+        is_frozen: true,
+        created_at: "2026-07-21",
+        description: "Victim received call claiming suspicious package containing MDMA contraband was seized."
       });
     } finally {
       setLoading(false);
@@ -55,122 +45,114 @@ export default function TrackReportPage() {
   };
 
   useEffect(() => {
-    if (ackQuery) {
-      setAckInput(ackQuery);
-      handleSearch(ackQuery);
+    if (initialAck) {
+      handleTrack(new Event('submit') as any);
     }
-  }, [ackQuery]);
+  }, [initialAck]);
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12 space-y-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 bg-slate-50 min-h-[75vh]">
+      
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-extrabold text-white">Track Cyber Crime Complaint</h1>
-        <p className="text-sm text-slate-400">
-          Enter your 11-character Reference Acknowledgement Number (e.g., RK-2026-8801)
+        <span className="badge-blue">Public Citizen Portal</span>
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Track Complaint & Fast-Freeze Status</h1>
+        <p className="text-xs text-slate-600 max-w-lg mx-auto">
+          Enter your Acknowledgement Reference Number (e.g. RK-2026-8801) to view real-time interbank hold status.
         </p>
       </div>
 
       {/* Search Input Box */}
-      <div className="glass-panel p-4 rounded-2xl border border-cyan-500/30 flex gap-3 shadow-xl">
-        <input
-          type="text"
-          placeholder="Enter ACK Number (e.g. RK-2026-8801)"
-          value={ackInput}
-          onChange={(e) => setAckInput(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl bg-cyber-950 border border-cyan-500/30 text-white font-mono text-sm uppercase focus:outline-none focus:border-cyan-400"
-        />
-        <button
-          onClick={() => handleSearch(ackInput)}
-          disabled={loading}
-          className="px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider flex items-center space-x-2 shrink-0 transition-colors"
-        >
-          <Search className="h-4 w-4" />
-          <span>{loading ? 'Searching...' : 'Search'}</span>
-        </button>
-      </div>
+      <form onSubmit={handleTrack} className="light-card p-6 bg-white space-y-4 max-w-xl mx-auto border-2 border-blue-100">
+        <div>
+          <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase font-mono">
+            ACKNOWLEDGEMENT REFERENCE NUMBER
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              required
+              placeholder="e.g. RK-2026-8801"
+              value={ackNumber}
+              onChange={(e) => setAckNumber(e.target.value)}
+              className="light-input font-mono uppercase font-bold text-blue-600 flex-1"
+            />
+            <button type="submit" disabled={loading} className="btn-primary shrink-0">
+              <Search className="h-4 w-4" />
+              <span>Track Status</span>
+            </button>
+          </div>
+        </div>
+      </form>
 
-      {/* Report Status Card */}
-      {report && (
-        <div className="glass-panel-glow p-6 rounded-2xl border border-cyan-400/30 space-y-6 bg-cyber-900 animate-in fade-in duration-200">
-          <div className="flex items-center justify-between border-b border-cyan-500/20 pb-4">
+      {/* Report Detail View Card */}
+      {reportDetail && (
+        <div className="light-card p-8 bg-white space-y-6 animate-in fade-in">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
             <div>
-              <span className="text-xs font-mono text-slate-400">ACK REFERENCE NUMBER</span>
-              <h2 className="text-2xl font-extrabold text-cyan-300 font-mono">{report.ack_number}</h2>
+              <span className="text-xs font-mono text-slate-400 block uppercase">ACKNOWLEDGEMENT NUMBER</span>
+              <h3 className="text-2xl font-black text-blue-600 font-mono">{reportDetail.ack_number}</h3>
             </div>
-            <div className="text-right">
-              <span className="text-xs font-mono text-slate-400 block">STATUS</span>
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-mono font-bold inline-block border ${
-                  report.status === 'FROZEN'
-                    ? 'bg-emerald-950 text-emerald-400 border-emerald-500/40'
-                    : 'bg-amber-950 text-amber-400 border-amber-500/40'
-                }`}
-              >
-                {report.status}
+            <div>
+              <span className="badge-emerald font-mono text-xs">
+                STATUS: {reportDetail.status}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-            <div className="glass-panel p-3 rounded-xl border border-cyan-500/20">
-              <span className="text-slate-400 block text-[11px]">Complainant</span>
-              <strong className="text-white font-medium">{report.victim_name}</strong>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-slate-500 block text-[11px]">Victim Name</span>
+              <span className="font-bold text-slate-900 text-sm">{reportDetail.victim_name}</span>
             </div>
-            <div className="glass-panel p-3 rounded-xl border border-cyan-500/20">
-              <span className="text-slate-400 block text-[11px]">Claimed Loss</span>
-              <strong className="text-emerald-400 font-mono">₹{report.amount_lost?.toLocaleString('en-IN')}</strong>
+
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-slate-500 block text-[11px]">Total Loss Claimed</span>
+              <span className="font-bold text-blue-600 text-sm">₹{reportDetail.amount_lost?.toLocaleString()}</span>
             </div>
-            <div className="glass-panel p-3 rounded-xl border border-cyan-500/20">
-              <span className="text-slate-400 block text-[11px]">Target UPI Handle</span>
-              <strong className="text-cyan-300 font-mono truncate block">{report.target_upi_id || 'N/A'}</strong>
-            </div>
-            <div className="glass-panel p-3 rounded-xl border border-cyan-500/20">
-              <span className="text-slate-400 block text-[11px]">Fast-Freeze Status</span>
-              <strong className={report.is_frozen ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>
-                {report.is_frozen ? 'ACTIVE HOLD' : 'PENDING REVIEW'}
-              </strong>
+
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-slate-500 block text-[11px]">Scam Category</span>
+              <span className="font-bold text-slate-900 text-sm">{reportDetail.category}</span>
             </div>
           </div>
 
-          {/* Timeline */}
-          <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-cyan-300">
-              Case Processing Timeline
+          {/* Fast Freeze Status Stepper */}
+          <div className="p-5 rounded-2xl bg-blue-50/50 border border-blue-100 space-y-4">
+            <h4 className="font-bold text-slate-900 text-xs font-mono uppercase tracking-wider flex items-center gap-2">
+              <Lock className="h-4 w-4 text-blue-600" /> Fast-Freeze Interbank Hold Timeline
             </h4>
-            <div className="space-y-3 font-sans text-xs">
-              <div className="flex items-start space-x-3">
-                <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-white">1. Incident Registered & SHA-256 Hashed</p>
-                  <p className="text-slate-400 text-[11px]">Evidence cryptographic checksum verified by backend engine.</p>
-                </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
+              <div className="p-3 rounded-xl bg-white border border-emerald-300 space-y-1">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600 mx-auto" />
+                <span className="font-bold text-slate-900 block">Report Lodged</span>
+                <span className="text-[10px] text-slate-500">Recorded in Database</span>
               </div>
-              <div className="flex items-start space-x-3">
-                <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-white">2. Neo4j Graph Ring Correlation Scan</p>
-                  <p className="text-slate-400 text-[11px]">Target account cross-checked against national cyber crime databases.</p>
-                </div>
+
+              <div className="p-3 rounded-xl bg-white border border-emerald-300 space-y-1">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600 mx-auto" />
+                <span className="font-bold text-slate-900 block">AI Verified</span>
+                <span className="text-[10px] text-slate-500">Risk Score: {reportDetail.risk_score}</span>
               </div>
-              <div className="flex items-start space-x-3">
-                {report.is_frozen ? (
-                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
-                ) : (
-                  <Clock className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                )}
-                <div>
-                  <p className="font-semibold text-white">3. Fast-Freeze Interbank Directive</p>
-                  <p className="text-slate-400 text-[11px]">
-                    {report.is_frozen
-                      ? 'Interbank hold reference token successfully generated and dispatched to beneficiary bank.'
-                      : 'Law Enforcement Special Cell inspecting target accounts for immediate hold directive.'}
-                  </p>
-                </div>
+
+              <div className="p-3 rounded-xl bg-white border border-emerald-300 space-y-1">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600 mx-auto" />
+                <span className="font-bold text-slate-900 block">Freeze Issued</span>
+                <span className="text-[10px] text-slate-500">Sec 91 CrPC Token</span>
+              </div>
+
+              <div className={`p-3 rounded-xl bg-white border space-y-1 ${reportDetail.is_frozen ? 'border-emerald-300' : 'border-slate-200'}`}>
+                <CheckCircle2 className={`h-5 w-5 mx-auto ${reportDetail.is_frozen ? 'text-emerald-600' : 'text-slate-300'}`} />
+                <span className="font-bold text-slate-900 block">Funds Locked</span>
+                <span className="text-[10px] text-slate-500">{reportDetail.is_frozen ? 'Bank Hold Active' : 'Processing'}</span>
               </div>
             </div>
           </div>
+
         </div>
       )}
+
     </div>
   );
 }

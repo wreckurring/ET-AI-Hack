@@ -33,7 +33,6 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
       setResult(res);
     } catch (err: any) {
       console.warn("AI Scam Detector client fallback:", err);
-      // Client-side fallback detection preview
       const text = textContent.toLowerCase();
       let scamType = "Digital Arrest Scam";
       let confidence = 0.95;
@@ -64,38 +63,38 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="glass-panel-glow w-full max-w-xl rounded-2xl border border-cyan-400/40 p-6 shadow-2xl relative bg-cyber-900">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white w-full max-w-xl rounded-2xl border border-slate-200 p-6 shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center space-x-3 border-b border-cyan-500/20 pb-4 mb-4">
-          <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+        <div className="flex items-center space-x-3 border-b border-slate-100 pb-3">
+          <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
             <Cpu className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              AI Cyber Scam Classifier
-            </h3>
-            <p className="text-xs text-slate-400">
-              Scans SMS, WhatsApp messages, Emails, and Call Transcripts against Indian Cybercrime taxonomy
+            <h3 className="text-lg font-extrabold text-slate-900">AI Cyber Scam Analyzer</h3>
+            <p className="text-xs text-slate-500 font-mono">
+              Scans SMS, WhatsApp messages, Emails, and Call Transcripts
             </p>
           </div>
         </div>
 
         <form onSubmit={handleAnalyze} className="space-y-4">
           <div>
-            <label className="block text-xs font-mono text-cyan-300 mb-1.5">1. SELECT SOURCE FORMAT</label>
-            <div className="grid grid-cols-4 gap-2 text-xs">
+            <label className="block text-xs font-mono font-bold text-slate-700 mb-1.5 uppercase">
+              1. SELECT SOURCE FORMAT
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
               <button
                 type="button"
                 onClick={() => setSourceType('SMS')}
-                className={`p-2 rounded-lg border font-mono flex items-center justify-center gap-1.5 ${
-                  sourceType === 'SMS' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 font-bold' : 'bg-cyber-950 text-slate-400 border-cyan-500/20'
+                className={`p-2 rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
+                  sourceType === 'SMS' ? 'bg-blue-50 text-blue-700 border-blue-300 font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'
                 }`}
               >
                 <MessageSquare className="h-3.5 w-3.5" /> SMS
@@ -103,8 +102,8 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
               <button
                 type="button"
                 onClick={() => setSourceType('WHATSAPP')}
-                className={`p-2 rounded-lg border font-mono flex items-center justify-center gap-1.5 ${
-                  sourceType === 'WHATSAPP' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400 font-bold' : 'bg-cyber-950 text-slate-400 border-cyan-500/20'
+                className={`p-2 rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
+                  sourceType === 'WHATSAPP' ? 'bg-emerald-50 text-emerald-700 border-emerald-300 font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'
                 }`}
               >
                 WhatsApp
@@ -112,8 +111,8 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
               <button
                 type="button"
                 onClick={() => setSourceType('EMAIL')}
-                className={`p-2 rounded-lg border font-mono flex items-center justify-center gap-1.5 ${
-                  sourceType === 'EMAIL' ? 'bg-purple-500/20 text-purple-300 border-purple-400 font-bold' : 'bg-cyber-950 text-slate-400 border-cyan-500/20'
+                className={`p-2 rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
+                  sourceType === 'EMAIL' ? 'bg-purple-50 text-purple-700 border-purple-300 font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'
                 }`}
               >
                 <Mail className="h-3.5 w-3.5" /> Email
@@ -121,8 +120,8 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
               <button
                 type="button"
                 onClick={() => setSourceType('CALL_TRANSCRIPT')}
-                className={`p-2 rounded-lg border font-mono flex items-center justify-center gap-1.5 ${
-                  sourceType === 'CALL_TRANSCRIPT' ? 'bg-amber-500/20 text-amber-300 border-amber-400 font-bold' : 'bg-cyber-950 text-slate-400 border-cyan-500/20'
+                className={`p-2 rounded-xl border flex items-center justify-center gap-1.5 transition-all ${
+                  sourceType === 'CALL_TRANSCRIPT' ? 'bg-amber-50 text-amber-700 border-amber-300 font-bold' : 'bg-slate-50 text-slate-600 border-slate-200'
                 }`}
               >
                 <PhoneCall className="h-3.5 w-3.5" /> Transcript
@@ -131,7 +130,7 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-cyan-300 mb-1">
+            <label className="block text-xs font-mono font-bold text-slate-700 mb-1 uppercase">
               2. PASTE SUSPICIOUS TEXT / TRANSCRIPT
             </label>
             <textarea
@@ -140,19 +139,19 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
               placeholder="e.g. Sir this is Customs Officer from Mumbai Police. A package containing MDMA drugs was seized under your name. Connect on Skype for Digital Arrest clearance..."
               value={textContent}
               onChange={(e) => setTextContent(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-cyber-950 border border-cyan-500/30 text-white text-xs focus:outline-none focus:border-cyan-400"
+              className="light-input"
             />
           </div>
 
           <button
             type="submit"
             disabled={isAnalyzing}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-cyan-500/20 transition-all border border-cyan-400/30"
+            className="btn-primary w-full py-3"
           >
             {isAnalyzing ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Analyzing Patterns & Threat Vectors...</span>
+                <span>Analyzing Patterns...</span>
               </>
             ) : (
               <>
@@ -165,14 +164,14 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
 
         {/* AI Scam Results Card */}
         {result && (
-          <div className="mt-5 glass-panel p-4 rounded-xl border border-cyan-400/40 space-y-3 bg-cyber-950 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between border-b border-cyan-500/20 pb-2">
+          <div className="p-4 rounded-xl border border-blue-200 space-y-3 bg-blue-50/50 animate-in fade-in">
+            <div className="flex items-center justify-between border-b border-blue-100 pb-2">
               <div>
-                <span className="text-[10px] font-mono text-slate-400 block uppercase">DETECTED SCAM TAXONOMY</span>
-                <span className="text-base font-extrabold text-white">{result.scam_type}</span>
+                <span className="text-[10px] font-mono text-slate-500 uppercase block font-bold">DETECTED SCAM TAXONOMY</span>
+                <span className="text-base font-extrabold text-slate-900">{result.scam_type}</span>
               </div>
               <div className="text-right">
-                <span className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-red-950 text-red-400 border border-red-500/40">
+                <span className="badge-red font-mono">
                   Risk Score: {result.risk_score}/100
                 </span>
               </div>
@@ -180,14 +179,14 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
 
             <div className="grid grid-cols-2 gap-2 text-xs font-mono">
               <div>
-                <span className="text-slate-400 block text-[10px]">Confidence Rating:</span>
-                <span className="text-cyan-300 font-bold">{(result.confidence * 100).toFixed(0)}% Match</span>
+                <span className="text-slate-500 block text-[10px]">Confidence Rating:</span>
+                <span className="text-blue-700 font-bold">{(result.confidence * 100).toFixed(0)}% Match</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[10px]">Keywords Flagged:</span>
+                <span className="text-slate-500 block text-[10px]">Keywords Flagged:</span>
                 <div className="flex flex-wrap gap-1 mt-0.5">
                   {result.suspicious_keywords.map((kw: string, i: number) => (
-                    <span key={i} className="px-1.5 py-0.5 rounded text-[9px] bg-red-950/80 text-red-300 border border-red-500/30">
+                    <span key={i} className="badge-red text-[10px]">
                       {kw}
                     </span>
                   ))}
@@ -195,9 +194,9 @@ export default function AIScamDetectorModal({ isOpen, onClose }: AIScamDetectorM
               </div>
             </div>
 
-            <div className="pt-2 border-t border-cyan-500/20 text-xs">
-              <span className="text-slate-400 block font-mono text-[10px]">AI THREAT EXPLANATION:</span>
-              <p className="text-slate-200 text-xs mt-1 leading-relaxed">{result.explanation}</p>
+            <div className="pt-2 border-t border-blue-100 text-xs">
+              <span className="text-slate-500 block font-mono text-[10px] font-bold">AI THREAT EXPLANATION:</span>
+              <p className="text-slate-800 text-xs mt-1 leading-relaxed">{result.explanation}</p>
             </div>
           </div>
         )}
