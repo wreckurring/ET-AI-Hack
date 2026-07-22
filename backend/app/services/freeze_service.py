@@ -29,7 +29,7 @@ class FastFreezeService:
             freeze_status=FreezeState.FREEZE_REQUESTED.value,
             police_badge=freeze_req.police_badge,
             notes=freeze_req.notes,
-            freeze_timestamp=datetime.utcnow()
+            created_at=datetime.utcnow()
         )
 
         db.add(freeze_action)
@@ -40,7 +40,7 @@ class FastFreezeService:
             freeze_action_id=freeze_action.id,
             from_state="NONE",
             to_state=FreezeState.PENDING.value,
-            changed_by_badge=freeze_req.police_badge,
+            actor_badge=freeze_req.police_badge,
             notes="Citizen Incident Report Logged",
             interbank_token=f"TOKEN-INIT-{uuid.uuid4().hex[:4].upper()}"
         )
@@ -48,7 +48,7 @@ class FastFreezeService:
             freeze_action_id=freeze_action.id,
             from_state=FreezeState.PENDING.value,
             to_state=FreezeState.UNDER_REVIEW.value,
-            changed_by_badge=freeze_req.police_badge,
+            actor_badge=freeze_req.police_badge,
             notes="Officer Verification & Risk Threshold Assessment Completed",
             interbank_token=f"TOKEN-REV-{uuid.uuid4().hex[:4].upper()}"
         )
@@ -56,7 +56,7 @@ class FastFreezeService:
             freeze_action_id=freeze_action.id,
             from_state=FreezeState.UNDER_REVIEW.value,
             to_state=FreezeState.FREEZE_REQUESTED.value,
-            changed_by_badge=freeze_req.police_badge,
+            actor_badge=freeze_req.police_badge,
             notes=freeze_req.notes or "Section 91 CrPC Hold Directive Issued to NPCI Gateway",
             interbank_token=f"TOKEN-REQ-{uuid.uuid4().hex[:4].upper()}"
         )
@@ -68,7 +68,7 @@ class FastFreezeService:
             freeze_action_id=freeze_action.id,
             from_state=FreezeState.FREEZE_REQUESTED.value,
             to_state=FreezeState.BANK_ACKNOWLEDGED.value,
-            changed_by_badge="NPCI-GATEWAY",
+            actor_badge="NPCI-GATEWAY",
             notes=f"Beneficiary Bank {freeze_req.beneficiary_bank} Acknowledged Hold Directive",
             interbank_token=f"ACK-NPCI-{uuid.uuid4().hex[:6].upper()}"
         )
@@ -76,7 +76,7 @@ class FastFreezeService:
             freeze_action_id=freeze_action.id,
             from_state=FreezeState.BANK_ACKNOWLEDGED.value,
             to_state=FreezeState.ACCOUNT_FROZEN.value,
-            changed_by_badge="BANK-SYSTEM",
+            actor_badge="BANK-SYSTEM",
             notes=f"Target Account {freeze_req.target_identifier} Funds (₹{freeze_req.amount_held:,.2f}) Successfully Locked",
             interbank_token=f"LOCKED-{uuid.uuid4().hex[:6].upper()}"
         )

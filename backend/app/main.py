@@ -68,6 +68,8 @@ async def global_exception_handler(request: Request, exc: Exception):
         }
     )
 
+from app.api.v1 import auth, reports, analytics, graph, fast_freeze, ai_scam, copilot, websockets, health, seed, counterfeit
+
 # Ensure upload directory exists
 os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
@@ -85,6 +87,7 @@ app.include_router(graph.router, prefix=settings.API_V1_STR)
 app.include_router(fast_freeze.router, prefix=settings.API_V1_STR)
 app.include_router(ai_scam.router, prefix=settings.API_V1_STR)
 app.include_router(copilot.router, prefix=settings.API_V1_STR)
+app.include_router(counterfeit.router, prefix=settings.API_V1_STR)
 app.include_router(websockets.router)
 app.include_router(health.router, prefix=settings.API_V1_STR)
 app.include_router(seed.router, prefix=settings.API_V1_STR)

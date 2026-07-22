@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import OurActivities from '@/components/OurActivities';
 import DosAndDonts from '@/components/DosAndDonts';
 import ResourcesSection from '@/components/ResourcesSection';
 import ImportantWebsites from '@/components/ImportantWebsites';
@@ -56,13 +57,16 @@ export default function NDMAGovernmentHomepage() {
         </div>
       </section>
 
+      {/* 🌟 OUR ACTIVITIES (PRIMARY HOMEPAGE SHOWCASE - 4 INTELLIGENCE DOMAINS) */}
+      <OurActivities />
+
       {/* DO'S & DON'TS PHOTO CAROUSEL (NDMA Screenshot 2 Replica) */}
       <DosAndDonts />
 
       {/* OFFICIAL RESOURCES PUBLICATION GALLERY (NDMA Screenshot 3 Replica) */}
       <ResourcesSection />
 
-      {/* IMPORTANT WEBSITES DIRECTORY */}
+      {/* IMPORTANT WEBSITES DIRECTORY (CIRCULAR LOGOS REPLICA) */}
       <ImportantWebsites />
 
     </div>

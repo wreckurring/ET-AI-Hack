@@ -61,34 +61,34 @@ export default function Navbar() {
   return (
     <header className="bg-white border-b-2 border-blue-700 font-sans shadow-sm">
       
-      {/* BRANDING HEADER ROW (Screenshot 1 Exact Layout) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* BRANDING HEADER ROW (+15-20% Height Increase: py-4 sm:py-5) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col md:flex-row items-center justify-between gap-4">
         
-        {/* LEFT: Government Logo & Title */}
-        <Link href="/" className="flex items-center space-x-3.5 group shrink-0">
-          <div className="w-12 h-12 rounded-full border-2 border-blue-700 flex items-center justify-center p-1 bg-white shadow-sm">
+        {/* LEFT: Government Logo & Title (Increased Logo & Font Size) */}
+        <Link href="/" className="flex items-center space-x-4 group shrink-0">
+          <div className="w-14 h-14 rounded-full border-2 border-blue-700 flex items-center justify-center p-1 bg-white shadow-sm">
             {/* Official Seal Mock / Emblem */}
-            <div className="w-full h-full rounded-full bg-blue-700 text-white flex items-center justify-center font-black text-lg">
+            <div className="w-full h-full rounded-full bg-blue-700 text-white flex items-center justify-center font-black text-xl">
               🇮🇳
             </div>
           </div>
 
           <div>
-            <span className="text-xl sm:text-2xl font-black text-blue-900 tracking-tight block leading-tight">
+            <span className="text-2xl sm:text-3xl font-black text-blue-900 tracking-tight block leading-none">
               RAKSHA-NET
             </span>
-            <span className="text-xs text-slate-700 font-bold block leading-snug">
+            <span className="text-xs sm:text-sm text-slate-700 font-bold block leading-snug mt-0.5">
               Ministry of Home Affairs
             </span>
-            <span className="text-[11px] text-slate-500 font-semibold block leading-tight">
+            <span className="text-xs text-slate-500 font-semibold block leading-tight">
               Government of India
             </span>
           </div>
         </Link>
 
-        {/* CENTER: Search Bar (Screenshot 1 Exact Layout) */}
-        <div ref={searchRef} className="relative w-full max-w-md hidden md:block">
-          <div className="flex rounded-md border border-slate-300 overflow-hidden focus-within:border-blue-700 focus-within:ring-1 focus-within:ring-blue-700">
+        {/* CENTER: Search Bar (+Height Increase) */}
+        <div ref={searchRef} className="relative w-full max-w-lg hidden md:block">
+          <div className="flex rounded-md border border-slate-300 overflow-hidden focus-within:border-blue-700 focus-within:ring-2 focus-within:ring-blue-100">
             <input
               type="text"
               placeholder="Search by keyword or phrase..."
@@ -98,11 +98,11 @@ export default function Navbar() {
                 setSearchQuery(e.target.value);
                 setSearchOpen(true);
               }}
-              className="w-full px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none"
+              className="w-full px-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none"
             />
             <button
               onClick={() => setSearchOpen(true)}
-              className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 text-xs font-bold transition-colors shrink-0 flex items-center justify-center"
+              className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2.5 text-xs sm:text-sm font-bold transition-colors shrink-0 flex items-center justify-center"
             >
               Search
             </button>
@@ -110,7 +110,7 @@ export default function Navbar() {
 
           {/* Autocomplete Dropdown */}
           {searchOpen && searchQuery.trim().length > 0 && (
-            <div className="absolute left-0 right-0 top-11 bg-white border border-slate-300 rounded-md shadow-lg z-50 overflow-hidden text-xs">
+            <div className="absolute left-0 right-0 top-12 bg-white border border-slate-300 rounded-md shadow-lg z-50 overflow-hidden text-xs sm:text-sm">
               {filteredSearch.length > 0 ? (
                 <div>
                   {filteredSearch.map((item, idx) => (
@@ -118,27 +118,27 @@ export default function Navbar() {
                       key={idx}
                       href={item.url}
                       onClick={() => setSearchOpen(false)}
-                      className="block px-4 py-2.5 hover:bg-blue-50 text-slate-800 border-b border-slate-100 last:border-0 font-medium"
+                      className="block px-4 py-3 hover:bg-blue-50 text-slate-800 border-b border-slate-100 last:border-0 font-medium"
                     >
                       {item.title}
                     </Link>
                   ))}
                 </div>
               ) : (
-                <div className="p-3 text-slate-500 text-center font-mono">No matching portal pages found.</div>
+                <div className="p-3.5 text-slate-500 text-center font-mono">No matching portal pages found.</div>
               )}
             </div>
           )}
         </div>
 
-        {/* RIGHT: Language Switcher & Sign In Button (Screenshot 1 Exact Layout) */}
+        {/* RIGHT: Language Switcher & Sign In Button */}
         <div className="flex items-center space-x-4 shrink-0">
           
           {/* Language Switcher */}
-          <div className="flex items-center text-xs font-semibold text-slate-700">
+          <div className="flex items-center text-xs sm:text-sm font-semibold text-slate-700">
             <button
               onClick={() => setLanguage('en')}
-              className={`px-2 py-1 rounded transition-all ${
+              className={`px-2.5 py-1 rounded transition-all ${
                 language === 'en' ? 'text-blue-800 font-extrabold underline' : 'hover:text-blue-700'
               }`}
             >
@@ -147,7 +147,7 @@ export default function Navbar() {
             <span className="text-slate-400">|</span>
             <button
               onClick={() => setLanguage('hi')}
-              className={`px-2 py-1 rounded transition-all ${
+              className={`px-2.5 py-1 rounded transition-all ${
                 language === 'hi' ? 'text-blue-800 font-extrabold underline' : 'hover:text-blue-700'
               }`}
             >
@@ -158,12 +158,12 @@ export default function Navbar() {
           {/* Sign In Button */}
           {token ? (
             <div className="flex items-center space-x-2">
-              <span className="px-3 py-1.5 bg-slate-100 border border-slate-300 rounded text-xs font-bold text-slate-800">
+              <span className="px-3 py-2 bg-slate-100 border border-slate-300 rounded text-xs sm:text-sm font-bold text-slate-800">
                 {userName || 'Officer'}
               </span>
               <button
                 onClick={handleLogout}
-                className="px-2.5 py-1.5 bg-slate-200 hover:bg-red-600 hover:text-white rounded text-xs font-bold transition-all text-slate-700"
+                className="px-3 py-2 bg-slate-200 hover:bg-red-600 hover:text-white rounded text-xs sm:text-sm font-bold transition-all text-slate-700"
               >
                 Sign Out
               </button>
@@ -171,7 +171,7 @@ export default function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded text-xs font-bold transition-colors shadow-sm"
+              className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2.5 rounded text-xs sm:text-sm font-bold transition-colors shadow-sm"
             >
               Sign In
             </Link>
@@ -180,7 +180,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-1.5 text-slate-700 hover:bg-slate-100 rounded"
+            className="md:hidden p-2 text-slate-700 hover:bg-slate-100 rounded"
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -188,24 +188,33 @@ export default function Navbar() {
 
       </div>
 
-      {/* BOTTOM GRAY NAVIGATION STRIP (Screenshot 1 Exact Match) */}
+      {/* BOTTOM NAV STRIP (+Text Size & Item Spacing Increase) */}
       <div className="bg-slate-800 text-white border-t border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="hidden md:flex items-center space-x-1 py-1 text-xs font-semibold">
+          <nav className="hidden md:flex items-center space-x-2 sm:space-x-3 py-1.5 text-xs sm:text-sm font-bold">
             
             <Link
               href="/"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1.5 border-b-2 ${
-                pathname === '/' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1.5 border-b-2 ${
+                pathname === '/' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
               }`}
             >
               <span>🏠 Home</span>
             </Link>
 
             <Link
+              href="/#activities"
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
+                pathname === '/#activities' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
+              }`}
+            >
+              <span>Our Activities</span>
+            </Link>
+
+            <Link
               href="/#dos-donts"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/#dos-donts' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
+                pathname === '/#dos-donts' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
               }`}
             >
               <span>Cyber Awareness</span>
@@ -213,8 +222,8 @@ export default function Navbar() {
 
             <Link
               href="/report"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/report' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
+                pathname === '/report' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
               }`}
             >
               <span>Report Fraud</span>
@@ -222,8 +231,8 @@ export default function Navbar() {
 
             <Link
               href="/track"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/track' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
+                pathname === '/track' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
               }`}
             >
               <span>Track Complaint</span>
@@ -231,8 +240,8 @@ export default function Navbar() {
 
             <Link
               href="/#resources"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/#resources' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
+                pathname === '/#resources' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
               }`}
             >
               <span>Resources</span>
@@ -240,29 +249,11 @@ export default function Navbar() {
 
             <Link
               href="/#websites"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/#websites' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
+              className={`px-4 py-2.5 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
+                pathname === '/#websites' ? 'border-amber-400 text-white bg-slate-700' : 'border-transparent text-slate-200'
               }`}
             >
               <span>Important Websites</span>
-            </Link>
-
-            <Link
-              href="/#help"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/#help' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
-              }`}
-            >
-              <span>Help</span>
-            </Link>
-
-            <Link
-              href="/#contact"
-              className={`px-4 py-2 hover:bg-slate-700 transition-colors flex items-center gap-1 border-b-2 ${
-                pathname === '/#contact' ? 'border-amber-400 text-white font-bold bg-slate-700' : 'border-transparent text-slate-200'
-              }`}
-            >
-              <span>Contact</span>
             </Link>
 
           </nav>
@@ -271,14 +262,14 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-800 text-white px-4 py-3 space-y-2 border-t border-slate-700 text-xs">
+        <div className="md:hidden bg-slate-800 text-white px-4 py-3 space-y-2 border-t border-slate-700 text-xs sm:text-sm">
           <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700 font-bold">Home</Link>
+          <Link href="/#activities" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700 font-bold">Our Activities</Link>
           <Link href="/#dos-donts" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700">Cyber Awareness</Link>
           <Link href="/report" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700">Report Fraud</Link>
           <Link href="/track" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700">Track Complaint</Link>
           <Link href="/#resources" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700">Resources</Link>
           <Link href="/#websites" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700">Important Websites</Link>
-          <Link href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 border-b border-slate-700">Contact</Link>
         </div>
       )}
 

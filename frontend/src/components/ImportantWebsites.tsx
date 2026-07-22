@@ -3,57 +3,58 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
 
-interface PartnerWebsite {
+interface OrganizationWebsite {
   id: string;
   name: string;
-  domain: string;
+  code: string;
   url: string;
-  category: string;
+  color: string;
 }
 
-const WEBSITES: PartnerWebsite[] = [
-  { id: '1', name: 'National Cyber Crime Reporting Portal', domain: 'cybercrime.gov.in', url: 'https://cybercrime.gov.in', category: 'Ministry of Home Affairs' },
-  { id: '2', name: 'Ministry of Home Affairs (MHA)', domain: 'mha.gov.in', url: 'https://mha.gov.in', category: 'Government of India' },
-  { id: '3', name: 'CERT-In Cyber Emergency Response', domain: 'cert-in.org.in', url: 'https://www.cert-in.org.in', category: 'MeitY Security Agency' },
-  { id: '4', name: 'Indian Cyber Crime Coordination Centre (I4C)', domain: 'i4c.mha.gov.in', url: 'https://i4c.mha.gov.in', category: 'National Cyber Directorate' },
-  { id: '5', name: 'Reserve Bank of India (RBI)', domain: 'rbi.org.in', url: 'https://rbi.org.in', category: 'Central Banking Regulator' },
-  { id: '6', name: 'National Payments Corporation of India (NPCI)', domain: 'npci.org.in', url: 'https://npci.org.in', category: 'UPI & Retail Payments' },
-  { id: '7', name: 'Digital India Initiative', domain: 'digitalindia.gov.in', url: 'https://digitalindia.gov.in', category: 'MeitY National Mission' },
-  { id: '8', name: 'National Informatics Centre (NIC)', domain: 'nic.in', url: 'https://nic.in', category: 'Technology Partner' }
+const WEBSITES: OrganizationWebsite[] = [
+  { id: '1', name: 'CERT-In', code: 'CERT-In', url: 'https://www.cert-in.org.in', color: 'bg-blue-900' },
+  { id: '2', name: 'Reserve Bank of India', code: 'RBI', url: 'https://rbi.org.in', color: 'bg-blue-800' },
+  { id: '3', name: 'National Payments Corporation of India', code: 'NPCI', url: 'https://npci.org.in', color: 'bg-emerald-700' },
+  { id: '4', name: 'Indian Cyber Crime Coordination Centre', code: 'I4C', url: 'https://i4c.mha.gov.in', color: 'bg-amber-800' },
+  { id: '5', name: 'Ministry of Home Affairs', code: 'MHA', url: 'https://mha.gov.in', color: 'bg-red-800' },
+  { id: '6', name: 'National Cyber Crime Portal', code: 'CYBER PORTAL', url: 'https://cybercrime.gov.in', color: 'bg-purple-800' },
+  { id: '7', name: 'Digital India Initiative', code: 'DIGITAL INDIA', url: 'https://digitalindia.gov.in', color: 'bg-blue-600' },
+  { id: '8', name: 'National Informatics Centre', code: 'NIC', url: 'https://nic.in', color: 'bg-indigo-800' },
 ];
 
 export default function ImportantWebsites() {
   return (
-    <section id="websites" className="py-12 bg-slate-50 border-b border-slate-200 font-sans">
+    <section id="websites" className="py-14 bg-slate-50 border-b border-slate-200 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
-        {/* Section Heading */}
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-blue-900 tracking-tight">
-          Important Websites
-        </h2>
+        {/* Section Heading (Matching Reference Screenshot EXACTLY) */}
+        <div className="text-center space-y-1">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-wider uppercase">
+            IMPORTANT WEBSITES
+          </h2>
+        </div>
 
-        {/* Directory Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Circular Logo Card Gallery (Matching Reference Screenshot EXACTLY) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
           {WEBSITES.map((site) => (
             <a
               key={site.id}
               href={site.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+              className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all flex flex-col items-center justify-center space-y-3 group aspect-[4/3]"
             >
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-wider">{site.category}</span>
-                  <ExternalLink className="h-3.5 w-3.5 text-slate-400 group-hover:text-blue-700 transition-colors" />
+              {/* Circular Official Logo Seal (Screenshot Match) */}
+              <div className={`w-14 h-14 rounded-full ${site.color} text-white flex items-center justify-center p-2 shadow-inner group-hover:scale-105 transition-transform`}>
+                <div className="w-full h-full rounded-full border border-white/40 flex items-center justify-center font-black text-[11px] tracking-tighter">
+                  🇮🇳
                 </div>
-                <h3 className="font-bold text-slate-900 text-xs group-hover:text-blue-700 transition-colors leading-snug">{site.name}</h3>
               </div>
 
-              <div className="pt-2 border-t border-slate-100 flex items-center justify-between font-mono text-[10px] text-slate-500 mt-2">
-                <span>{site.domain}</span>
-                <span className="text-blue-700 font-bold opacity-0 group-hover:opacity-100 transition-opacity">Visit →</span>
-              </div>
+              {/* Organization Name Below Logo (Screenshot Match) */}
+              <span className="font-extrabold text-slate-900 text-xs text-center group-hover:text-blue-700 transition-colors uppercase tracking-tight">
+                {site.code}
+              </span>
             </a>
           ))}
         </div>
