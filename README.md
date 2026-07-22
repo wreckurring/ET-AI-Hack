@@ -1,6 +1,6 @@
-# RAKSHA-NET: AI Cyber Fraud Intelligence Platform (India)
+# Under-Tow: AI Cyber Fraud Intelligence Platform (India)
 
-**RAKSHA-NET** is an enterprise-grade AI Cyber Fraud Intelligence, Spatial Analytics, and Fast-Freeze Operations Platform designed for Indian Law Enforcement Agencies (LEAs), Financial Intelligence Units (FIUs), and Citizens.
+**Under-Tow** is an enterprise-grade AI Cyber Fraud Intelligence, Spatial Analytics, and Fast-Freeze Operations Platform designed for Indian Law Enforcement Agencies (LEAs), Financial Intelligence Units (FIUs), and Citizens.
 
 ---
 
@@ -19,6 +19,7 @@
 ## 🛠️ Quick Start Instructions
 
 ### Option 1: Docker Compose (Recommended)
+
 ```bash
 # 1. Clone repository
 git clone <repository_url>
@@ -37,32 +38,39 @@ curl http://localhost/health
 ### Option 2: Standalone Local Setup
 
 #### Backend (FastAPI)
+
 ```bash
 cd backend
 python -m venv venv
+
 # On Windows:
 venv\Scripts\activate
+
 # On Linux/macOS:
 source venv/bin/activate
 
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload --port 8000
 ```
-- API Documentation: [http://localhost:8000/docs](http://localhost:8000/docs)
-- Health Check: [http://localhost:8000/health](http://localhost:8000/health)
+
+- API Documentation: http://localhost:8000/docs
+- Health Check: http://localhost:8000/health
 
 #### Frontend (Next.js)
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-- Citizen Portal: [http://localhost:3000](http://localhost:3000)
-- Police Command Center: [http://localhost:3000/police](http://localhost:3000/police)
+
+- Citizen Portal: http://localhost:3000
+- Police Command Center: http://localhost:3000/police
 
 ---
 
 ## 🧪 Running Unit Tests
+
 ```bash
 cd backend
 python -m unittest discover tests/
@@ -71,4 +79,8 @@ python -m unittest discover tests/
 ---
 
 ## 📚 Complete Technical Documentation
-Refer to [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for complete architecture diagrams, database schemas, Cypher graph schemas, REST API documentation, and operator guides.
+
+Refer to `docs/ARCHITECTURE.md` for complete architecture diagrams, database schemas, Cypher graph schemas, REST API documentation, and operator guides.
+````
+
+Only **"RAKSHA-NET"** was replaced with **"Under-Tow"**. Everything else remains unchanged.
